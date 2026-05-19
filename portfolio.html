@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Portfolio — Senior UX Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  /* ─── DESIGN TOKENS ──────────────────────────────────────────────── */
+  :root {
+    --col-bg:        #F5F4F0;
+    --col-surface:   #ECEAE3;
+    --col-border:    #D4D0C4;
+    --col-ink:       #1A1916;
+    --col-ink-2:     #4A4840;
+    --col-ink-3:     #8A8778;
+    --col-accent:    #1A1916;
+    --col-tag-bg:    #E2DFD6;
+    --col-tag-ink:   #4A4840;
+    --col-green:     #2D6A4F;
+    --col-green-bg:  #D8F0E6;
+
+    --font-display:  'Syne', sans-serif;
+    --font-serif:    'Instrument Serif', serif;
+    --font-mono:     'DM Mono', monospace;
+
+    --grid:          8px;
+    --radius-sm:     4px;
+    --radius-md:     8px;
+    --radius-lg:     16px;
+
+    --max-w:         1080px;
+    --col-gap:       24px;
+    --section-gap:   120px;
+  }
+
+  /* ─── RESET ──────────────────────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--col-bg);
+    color: var(--col-ink);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+
+  /* ─── LAYOUT ─────────────────────────────────────────────────────── */
+  .container {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* ─── NAV ────────────────────────────────────────────────────────── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(245, 244, 240, 0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--col-border);
+    padding: 0 40px;
+    height: 56px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: -0.3px;
+  }
+  .nav-links {
+    display: flex; gap: 32px; list-style: none;
+  }
+  .nav-links a {
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--col-ink-2);
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--col-ink); }
+  .nav-cta {
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: 1px solid var(--col-ink);
+    padding: 7px 16px;
+    border-radius: var(--radius-sm);
+    transition: background 0.2s, color 0.2s;
+  }
+  .nav-cta:hover { background: var(--col-ink); color: var(--col-bg); }
+
+  /* ─── SECTION LABEL ──────────────────────────────────────────────── */
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--col-ink-3);
+    margin-bottom: 40px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::before {
+    content: '';
+    display: inline-block;
+    width: 24px; height: 1px;
+    background: var(--col-ink-3);
+  }
+
+  /* ─── HERO ───────────────────────────────────────────────────────── */
+  #hero {
+    min-height: 100vh;
+    padding-top: 56px;
+    display: flex; align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 80px;
+    align-items: end;
+    padding: 80px 0 100px;
+    width: 100%;
+  }
+  .hero-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--col-ink-3);
+    margin-bottom: 24px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .status-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--col-green);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.85); }
+  }
+  .hero-name {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(52px, 7vw, 88px);
+    line-height: 0.95;
+    letter-spacing: -2px;
+    margin-bottom: 32px;
+  }
+  .hero-name em {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--col-ink-2);
+  }
+  .hero-desc {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--col-ink-2);
+    max-width: 520px;
+    margin-bottom: 48px;
+  }
+  .hero-actions {
+    display: flex; gap: 16px; align-items: center;
+  }
+  .btn-primary {
+    background: var(--col-ink);
+    color: var(--col-bg);
+    padding: 12px 28px;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: opacity 0.2s;
+  }
+  .btn-primary:hover { opacity: 0.8; }
+  .btn-ghost {
+    color: var(--col-ink-2);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: flex; align-items: center; gap: 8px;
+    transition: color 0.2s;
+  }
+  .btn-ghost:hover { color: var(--col-ink); }
+  .btn-ghost .arrow { transition: transform 0.2s; }
+  .btn-ghost:hover .arrow { transform: translateX(4px); }
+
+  /* Hero sidebar card */
+  .hero-card {
+    background: var(--col-surface);
+    border: 1px solid var(--col-border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    align-self: center;
+  }
+  .hero-card-label {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--col-ink-3);
+    margin-bottom: 20px;
+  }
+  .skill-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--col-border);
+    font-size: 12px;
+  }
+  .skill-item:last-child { border-bottom: none; }
+  .skill-name { color: var(--col-ink); }
+  .skill-bar-wrap { width: 80px; height: 3px; background: var(--col-border); border-radius: 2px; }
+  .skill-bar { height: 100%; background: var(--col-ink); border-radius: 2px; transition: width 1.2s ease; }
+
+  /* ─── MARQUEE ────────────────────────────────────────────────────── */
+  .marquee-wrap {
+    border-top: 1px solid var(--col-border);
+    border-bottom: 1px solid var(--col-border);
+    padding: 14px 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .marquee-track {
+    display: inline-flex; gap: 48px;
+    animation: marquee 28s linear infinite;
+  }
+  .marquee-item {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--col-ink-3);
+    display: flex; align-items: center; gap: 16px;
+  }
+  .marquee-item::before { content: '◆'; font-size: 7px; }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ─── ABOUT ──────────────────────────────────────────────────────── */
+  #about { padding: var(--section-gap) 0; }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .about-sidebar { padding-top: 4px; }
+  .about-sidebar-stat {
+    margin-bottom: 32px;
+  }
+  .stat-num {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 36px;
+    letter-spacing: -1px;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--col-ink-3);
+  }
+  .about-headline {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+    margin-bottom: 28px;
+  }
+  .about-headline em {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+  }
+  .about-body {
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--col-ink-2);
+    margin-bottom: 20px;
+    max-width: 600px;
+  }
+  .tags {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-top: 32px;
+  }
+  .tag {
+    background: var(--col-tag-bg);
+    color: var(--col-tag-ink);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    padding: 5px 12px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--col-border);
+  }
+
+  /* ─── WORK ───────────────────────────────────────────────────────── */
+  #work { padding: var(--section-gap) 0; }
+  .work-header {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    margin-bottom: 56px;
+  }
+  .work-title {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 40px;
+    letter-spacing: -1px;
+    line-height: 1;
+  }
+  .work-subtitle {
+    font-size: 13px;
+    color: var(--col-ink-3);
+    max-width: 300px;
+    text-align: right;
+    line-height: 1.6;
+  }
+  .project-list { display: flex; flex-direction: column; gap: 2px; }
+  .project-row {
+    display: grid;
+    grid-template-columns: 48px 1fr auto auto;
+    align-items: center;
+    gap: 24px;
+    padding: 28px 24px;
+    background: var(--col-surface);
+    border: 1px solid var(--col-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .project-row::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--col-ink);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.25s ease;
+  }
+  .project-row:hover { background: var(--col-border); transform: translateX(4px); }
+  .project-row:hover::before { transform: scaleY(1); }
+  .project-num {
+    font-size: 11px;
+    color: var(--col-ink-3);
+    font-variant-numeric: tabular-nums;
+  }
+  .project-info { }
+  .project-name {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: -0.3px;
+    margin-bottom: 6px;
+  }
+  .project-desc {
+    font-size: 12px;
+    color: var(--col-ink-3);
+    line-height: 1.5;
+  }
+  .project-tags { display: flex; gap: 6px; }
+  .project-tag {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 2px;
+    background: var(--col-tag-bg);
+    color: var(--col-tag-ink);
+    border: 1px solid var(--col-border);
+  }
+  .project-arrow {
+    color: var(--col-ink-3);
+    font-size: 18px;
+    transition: transform 0.2s, color 0.2s;
+  }
+  .project-row:hover .project-arrow { transform: translateX(4px); color: var(--col-ink); }
+
+  /* Placeholder artwork inside project row */
+  .project-thumb {
+    width: 48px; height: 48px;
+    border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  /* ─── APPROACH ───────────────────────────────────────────────────── */
+  #approach { padding: var(--section-gap) 0; background: var(--col-surface); border-top: 1px solid var(--col-border); border-bottom: 1px solid var(--col-border); }
+  .approach-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 56px;
+  }
+  .approach-card {
+    background: var(--col-bg);
+    border: 1px solid var(--col-border);
+    padding: 36px 32px;
+    border-radius: var(--radius-md);
+    transition: transform 0.2s;
+  }
+  .approach-card:hover { transform: translateY(-4px); }
+  .approach-num {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--col-ink-3);
+    margin-bottom: 20px;
+  }
+  .approach-icon {
+    font-size: 28px;
+    margin-bottom: 20px;
+  }
+  .approach-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: -0.3px;
+    margin-bottom: 12px;
+  }
+  .approach-body {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--col-ink-2);
+  }
+
+  /* ─── RESEARCH ───────────────────────────────────────────────────── */
+  #research { padding: var(--section-gap) 0; }
+  .research-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 56px;
+  }
+  .research-card {
+    border: 1px solid var(--col-border);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    background: var(--col-surface);
+    transition: background 0.2s;
+  }
+  .research-card:hover { background: var(--col-border); }
+  .research-card-top {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 20px;
+  }
+  .research-type {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--col-ink-3);
+    background: var(--col-tag-bg);
+    padding: 4px 10px;
+    border-radius: 2px;
+    border: 1px solid var(--col-border);
+  }
+  .research-year {
+    font-size: 11px;
+    color: var(--col-ink-3);
+  }
+  .research-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 20px;
+    letter-spacing: -0.3px;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+  .research-desc {
+    font-size: 13px;
+    color: var(--col-ink-2);
+    line-height: 1.7;
+    margin-bottom: 24px;
+  }
+  .research-meta {
+    display: flex; gap: 24px;
+  }
+  .research-meta-item { }
+  .research-meta-val {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: -0.5px;
+  }
+  .research-meta-key {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--col-ink-3);
+  }
+
+  /* ─── DESIGN SYSTEM ──────────────────────────────────────────────── */
+  #system { padding: var(--section-gap) 0; }
+  .ds-showcase {
+    margin-top: 56px;
+    border: 1px solid var(--col-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  .ds-top-bar {
+    background: var(--col-ink);
+    padding: 12px 20px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .ds-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .ds-body { padding: 40px; background: var(--col-surface); }
+  .ds-row { display: flex; gap: 40px; margin-bottom: 40px; flex-wrap: wrap; }
+  .ds-section-title {
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--col-ink-3);
+    margin-bottom: 16px;
+  }
+  .ds-swatches { display: flex; gap: 8px; }
+  .swatch {
+    width: 40px; height: 40px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--col-border);
+  }
+  .ds-type-samples { display: flex; flex-direction: column; gap: 8px; }
+  .ds-type-h { font-family: var(--font-display); font-weight: 800; font-size: 24px; letter-spacing: -0.5px; }
+  .ds-type-s { font-family: var(--font-serif); font-style: italic; font-size: 18px; color: var(--col-ink-2); }
+  .ds-type-b { font-family: var(--font-mono); font-size: 13px; color: var(--col-ink-3); }
+  .ds-comp-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .ds-btn-1 { background: var(--col-ink); color: var(--col-bg); padding: 10px 20px; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; }
+  .ds-btn-2 { background: transparent; color: var(--col-ink); padding: 10px 20px; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 12px; border: 1px solid var(--col-ink); letter-spacing: 0.06em; }
+  .ds-badge { background: var(--col-green-bg); color: var(--col-green); font-size: 11px; padding: 3px 10px; border-radius: 100px; font-family: var(--font-mono); letter-spacing: 0.04em; }
+  .ds-input-demo { border: 1px solid var(--col-border); background: var(--col-bg); padding: 10px 14px; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 12px; color: var(--col-ink-3); width: 200px; }
+
+  /* ─── CONTACT ────────────────────────────────────────────────────── */
+  #contact {
+    padding: var(--section-gap) 0 80px;
+    border-top: 1px solid var(--col-border);
+  }
+  .contact-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .contact-headline {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(36px, 5vw, 56px);
+    line-height: 1;
+    letter-spacing: -1.5px;
+    margin-bottom: 24px;
+  }
+  .contact-headline em {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--col-ink-2);
+  }
+  .contact-sub {
+    font-size: 14px;
+    color: var(--col-ink-2);
+    line-height: 1.7;
+    margin-bottom: 40px;
+  }
+  .contact-links { display: flex; flex-direction: column; gap: 0; }
+  .contact-link-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--col-border);
+    font-size: 13px;
+    color: var(--col-ink-2);
+    transition: color 0.2s;
+    cursor: pointer;
+  }
+  .contact-link-row:hover { color: var(--col-ink); }
+  .contact-link-row .link-arrow { transition: transform 0.2s; }
+  .contact-link-row:hover .link-arrow { transform: translate(3px, -3px); }
+  .contact-form { display: flex; flex-direction: column; gap: 16px; }
+  .form-field { display: flex; flex-direction: column; gap: 6px; }
+  .form-label { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--col-ink-3); }
+  .form-input, .form-textarea {
+    background: var(--col-surface);
+    border: 1px solid var(--col-border);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--col-ink);
+    transition: border-color 0.2s;
+    outline: none;
+    resize: none;
+  }
+  .form-input:focus, .form-textarea:focus { border-color: var(--col-ink); }
+  .form-textarea { min-height: 120px; }
+  .form-submit {
+    background: var(--col-ink);
+    color: var(--col-bg);
+    border: none;
+    padding: 14px 28px;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    align-self: flex-start;
+    transition: opacity 0.2s;
+  }
+  .form-submit:hover { opacity: 0.8; }
+
+  /* ─── FOOTER ─────────────────────────────────────────────────────── */
+  footer {
+    border-top: 1px solid var(--col-border);
+    padding: 24px 40px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-copy { font-size: 11px; color: var(--col-ink-3); letter-spacing: 0.06em; }
+  .footer-right { font-size: 11px; color: var(--col-ink-3); letter-spacing: 0.06em; }
+
+  /* ─── SECTION DIVIDER ────────────────────────────────────────────── */
+  .divider {
+    height: 1px;
+    background: var(--col-border);
+    margin: 0;
+  }
+
+  /* ─── SCROLL ANIMATIONS ──────────────────────────────────────────── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">YourName.design</div>
+  <ul class="nav-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#system">Design System</a></li>
+    <li><a href="#about">About</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Let's talk</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-eyebrow">
+          <span class="status-dot"></span>
+          Open to new roles · Sr. UX Designer & Product Designer
+        </div>
+        <h1 class="hero-name">
+          Designing<br>
+          <em>intelligent</em><br>
+          experiences
+        </h1>
+        <p class="hero-desc">
+          Senior UX Designer specialising in AI product design, design systems, and research-led product strategy. I help teams build products that are both human-centered and business-critical.
+        </p>
+        <div class="hero-actions">
+          <a href="#work" class="btn-primary">View Work</a>
+          <a href="#contact" class="btn-ghost">Get in touch <span class="arrow">→</span></a>
+        </div>
+      </div>
+
+      <div class="hero-card reveal reveal-delay-2">
+        <div class="hero-card-label">Expertise Index</div>
+        <div class="skill-item">
+          <span class="skill-name">AI / ML Product Design</span>
+          <div class="skill-bar-wrap"><div class="skill-bar" style="width:92%"></div></div>
+        </div>
+        <div class="skill-item">
+          <span class="skill-name">Design Systems</span>
+          <div class="skill-bar-wrap"><div class="skill-bar" style="width:88%"></div></div>
+        </div>
+        <div class="skill-item">
+          <span class="skill-name">UX Research</span>
+          <div class="skill-bar-wrap"><div class="skill-bar" style="width:85%"></div></div>
+        </div>
+        <div class="skill-item">
+          <span class="skill-name">Product Strategy</span>
+          <div class="skill-bar-wrap"><div class="skill-bar" style="width:78%"></div></div>
+        </div>
+        <div class="skill-item">
+          <span class="skill-name">Prototyping</span>
+          <div class="skill-bar-wrap"><div class="skill-bar" style="width:90%"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">AI Product Design</span>
+    <span class="marquee-item">Design Systems</span>
+    <span class="marquee-item">UX Research</span>
+    <span class="marquee-item">Figma</span>
+    <span class="marquee-item">Interaction Design</span>
+    <span class="marquee-item">Usability Testing</span>
+    <span class="marquee-item">Information Architecture</span>
+    <span class="marquee-item">Generative AI</span>
+    <span class="marquee-item">Product Strategy</span>
+    <span class="marquee-item">Component Libraries</span>
+    <span class="marquee-item">Accessibility</span>
+    <span class="marquee-item">Mixed Methods Research</span>
+    <!-- duplicate for seamless loop -->
+    <span class="marquee-item">AI Product Design</span>
+    <span class="marquee-item">Design Systems</span>
+    <span class="marquee-item">UX Research</span>
+    <span class="marquee-item">Figma</span>
+    <span class="marquee-item">Interaction Design</span>
+    <span class="marquee-item">Usability Testing</span>
+    <span class="marquee-item">Information Architecture</span>
+    <span class="marquee-item">Generative AI</span>
+    <span class="marquee-item">Product Strategy</span>
+    <span class="marquee-item">Component Libraries</span>
+    <span class="marquee-item">Accessibility</span>
+    <span class="marquee-item">Mixed Methods Research</span>
+  </div>
+</div>
+
+<!-- WORK -->
+<section id="work">
+  <div class="container">
+    <div class="work-header reveal">
+      <h2 class="work-title">Selected<br>Work</h2>
+      <p class="work-subtitle">Case studies spanning AI product design, design systems, and research-driven strategy.</p>
+    </div>
+
+    <div class="project-list">
+      <div class="project-row reveal reveal-delay-1">
+        <div class="project-thumb" style="background:#E8E4DA">🤖</div>
+        <div class="project-info">
+          <div class="project-name">AI Copilot for Enterprise SaaS</div>
+          <div class="project-desc">Designed an in-product AI assistant that reduced task completion time by 40% across 50k+ users</div>
+        </div>
+        <div class="project-tags">
+          <span class="project-tag">AI / ML</span>
+          <span class="project-tag">B2B</span>
+          <span class="project-tag">Research</span>
+        </div>
+        <span class="project-arrow">→</span>
+      </div>
+
+      <div class="project-row reveal reveal-delay-2">
+        <div class="project-thumb" style="background:#DDE8E2">🧩</div>
+        <div class="project-info">
+          <div class="project-name">Unified Design System v2.0</div>
+          <div class="project-desc">Built a multi-brand token-based design system adopted by 12 product teams, cutting design debt by 60%</div>
+        </div>
+        <div class="project-tags">
+          <span class="project-tag">Design Systems</span>
+          <span class="project-tag">Tokens</span>
+          <span class="project-tag">Figma</span>
+        </div>
+        <span class="project-arrow">→</span>
+      </div>
+
+      <div class="project-row reveal reveal-delay-3">
+        <div class="project-thumb" style="background:#E8DDE4">🔬</div>
+        <div class="project-info">
+          <div class="project-name">Mental Models Research for Generative AI</div>
+          <div class="project-desc">Led a mixed-methods research study on how non-technical users form mental models of AI systems</div>
+        </div>
+        <div class="project-tags">
+          <span class="project-tag">Research</span>
+          <span class="project-tag">Generative AI</span>
+          <span class="project-tag">Mixed Methods</span>
+        </div>
+        <span class="project-arrow">→</span>
+      </div>
+
+      <div class="project-row reveal reveal-delay-4">
+        <div class="project-thumb" style="background:#E4E8DD">📊</div>
+        <div class="project-info">
+          <div class="project-name">Data Visualization Platform Redesign</div>
+          <div class="project-desc">Reimagined a complex analytics dashboard for a fintech platform; improved core task NPS by 28 points</div>
+        </div>
+        <div class="project-tags">
+          <span class="project-tag">Data Viz</span>
+          <span class="project-tag">Fintech</span>
+          <span class="project-tag">Strategy</span>
+        </div>
+        <span class="project-arrow">→</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APPROACH -->
+<section id="approach">
+  <div class="container">
+    <div class="section-label reveal">Design Approach</div>
+    <h2 class="work-title reveal" style="font-size:36px; letter-spacing:-0.8px">How I work</h2>
+    <div class="approach-grid">
+      <div class="approach-card reveal reveal-delay-1">
+        <div class="approach-num">01 — Research</div>
+        <div class="approach-icon">🔍</div>
+        <div class="approach-title">Evidence First</div>
+        <div class="approach-body">Every design decision starts with a question. I use mixed-methods research — interviews, surveys, diary studies, and analytics — to build a complete picture before touching Figma.</div>
+      </div>
+      <div class="approach-card reveal reveal-delay-2">
+        <div class="approach-num">02 — Systems</div>
+        <div class="approach-icon">⬡</div>
+        <div class="approach-title">Think in Systems</div>
+        <div class="approach-body">Good design scales. I design tokens, patterns, and components that work across surfaces, brands, and contexts — not just the one screen in front of me.</div>
+      </div>
+      <div class="approach-card reveal reveal-delay-3">
+        <div class="approach-num">03 — AI-Native</div>
+        <div class="approach-icon">✦</div>
+        <div class="approach-title">AI as a Medium</div>
+        <div class="approach-body">I treat AI not as a feature but as a new design medium — with its own failure modes, trust dynamics, and interaction patterns that require a new design vocabulary.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH -->
+<section id="research">
+  <div class="container">
+    <div class="section-label reveal">Research & Thinking</div>
+    <div class="work-header reveal">
+      <h2 class="work-title">Research<br>Work</h2>
+      <p class="work-subtitle">Studies, frameworks, and insights from years of practice.</p>
+    </div>
+
+    <div class="research-grid">
+      <div class="research-card reveal reveal-delay-1">
+        <div class="research-card-top">
+          <span class="research-type">Mixed Methods</span>
+          <span class="research-year">2024</span>
+        </div>
+        <div class="research-title">How Users Trust (and Distrust) AI Recommendations</div>
+        <div class="research-desc">A 16-week longitudinal study exploring the trust calibration journey of first-time AI product users across three domains.</div>
+        <div class="research-meta">
+          <div class="research-meta-item">
+            <div class="research-meta-val">240</div>
+            <div class="research-meta-key">Participants</div>
+          </div>
+          <div class="research-meta-item">
+            <div class="research-meta-val">16wk</div>
+            <div class="research-meta-key">Duration</div>
+          </div>
+          <div class="research-meta-item">
+            <div class="research-meta-val">6</div>
+            <div class="research-meta-key">Key Findings</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="research-card reveal reveal-delay-2">
+        <div class="research-card-top">
+          <span class="research-type">Framework</span>
+          <span class="research-year">2024</span>
+        </div>
+        <div class="research-title">A Taxonomy for AI Interaction Patterns in Enterprise UX</div>
+        <div class="research-desc">A practical design framework categorising AI interaction types — from ambient intelligence to explicit co-creation — with design implications for each.</div>
+        <div class="research-meta">
+          <div class="research-meta-item">
+            <div class="research-meta-val">12</div>
+            <div class="research-meta-key">Patterns</div>
+          </div>
+          <div class="research-meta-item">
+            <div class="research-meta-val">4</div>
+            <div class="research-meta-key">Domains</div>
+          </div>
+          <div class="research-meta-item">
+            <div class="research-meta-val">3k+</div>
+            <div class="research-meta-key">Reads</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="research-card reveal reveal-delay-3">
+        <div class="research-card-top">
+          <span class="research-type">Usability Study</span>
+          <span class="research-year">2023</span>
+        </div>
+        <div class="research-title">Measuring Cognitive Load in AI-Augmented Workflows</div>
+        <div class="research-desc">Benchmarked cognitive load across 5 AI-assisted workflow variants using NASA-TLX and eye-tracking to find the optimal human-AI task split.</div>
+        <div class="research-meta">
+          <div class="research-meta-item">
+            <div class="research-meta-val">48</div>
+            <div class="research-meta-key">Participants</div>
+          </div>
+          <div class="research-meta-item">
+            <div class="research-meta-val">5</div>
+            <div class="research-meta-key">Conditions</div>
+          </div>
+          <div class="research-meta-item">
+            <div class="research-meta-val">32%</div>
+            <div class="research-meta-key">Load Reduction</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="research-card reveal reveal-delay-4">
+        <div class="research-card-top">
+          <span class="research-type">Design Principles</span>
+          <span class="research-year">2023</span>
+        </div>
+        <div class="research-title">Responsible AI UX: A Designer's Checklist</div>
+        <div class="research-desc">A practitioner-facing guide distilling responsible AI principles into 24 testable design heuristics, from transparency to graceful degradation.</div>
+        <div class="research-meta">
+          <div class="research-meta-item">
+            <div class="research-meta-val">24</div>
+            <div class="research-meta-key">Heuristics</div>
+          </div>
+          <div class="research-meta-item">
+            <div class="research-meta-val">8</div>
+            <div class="research-meta-key">Principles</div>
+          </div>
+          <div class="research-meta-item">
+            <div class="research-meta-val">Open</div>
+            <div class="research-meta-key">Access</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DESIGN SYSTEM SHOWCASE -->
+<section id="system">
+  <div class="container">
+    <div class="section-label reveal">Design System</div>
+    <div class="work-header reveal">
+      <h2 class="work-title">Systems<br>Thinking</h2>
+      <p class="work-subtitle">A sample of the token-based system that powers this portfolio — designed like a product.</p>
+    </div>
+
+    <div class="ds-showcase reveal">
+      <div class="ds-top-bar">
+        <div class="ds-dot" style="background:#FF5F57"></div>
+        <div class="ds-dot" style="background:#FEBC2E"></div>
+        <div class="ds-dot" style="background:#28C840"></div>
+        <span style="color:#8A8778; font-size:11px; margin-left:12px; font-family:var(--font-mono);">design-system / tokens / core</span>
+      </div>
+      <div class="ds-body">
+        <div class="ds-row">
+          <div>
+            <div class="ds-section-title">Color Tokens</div>
+            <div class="ds-swatches">
+              <div class="swatch" style="background:#1A1916" title="--col-ink"></div>
+              <div class="swatch" style="background:#4A4840" title="--col-ink-2"></div>
+              <div class="swatch" style="background:#8A8778" title="--col-ink-3"></div>
+              <div class="swatch" style="background:#F5F4F0" title="--col-bg"></div>
+              <div class="swatch" style="background:#ECEAE3" title="--col-surface"></div>
+              <div class="swatch" style="background:#2D6A4F" title="--col-green"></div>
+            </div>
+          </div>
+          <div>
+            <div class="ds-section-title">Typography Scale</div>
+            <div class="ds-type-samples">
+              <div class="ds-type-h">Display · Syne 800</div>
+              <div class="ds-type-s">Serif accent · Instrument Serif</div>
+              <div class="ds-type-b">Body + code · DM Mono 400</div>
+            </div>
+          </div>
+        </div>
+        <div class="ds-row">
+          <div>
+            <div class="ds-section-title">Components</div>
+            <div class="ds-comp-row">
+              <div class="ds-btn-1">Primary</div>
+              <div class="ds-btn-2">Ghost</div>
+              <div class="ds-badge">Active</div>
+              <input class="ds-input-demo" value="Input field..." readonly />
+            </div>
+          </div>
+        </div>
+        <div class="ds-row" style="margin-bottom:0">
+          <div>
+            <div class="ds-section-title">Spacing Grid (8px base)</div>
+            <div style="display:flex; gap:4px; align-items:flex-end">
+              <div style="width:8px; height:8px; background:var(--col-border); border-radius:2px"></div>
+              <div style="width:8px; height:16px; background:var(--col-border); border-radius:2px"></div>
+              <div style="width:8px; height:24px; background:var(--col-border); border-radius:2px"></div>
+              <div style="width:8px; height:32px; background:var(--col-border); border-radius:2px"></div>
+              <div style="width:8px; height:40px; background:var(--col-border); border-radius:2px"></div>
+              <div style="width:8px; height:48px; background:var(--col-ink-3); border-radius:2px"></div>
+              <div style="width:8px; height:56px; background:var(--col-ink-2); border-radius:2px"></div>
+              <div style="width:8px; height:64px; background:var(--col-ink); border-radius:2px"></div>
+            </div>
+          </div>
+          <div>
+            <div class="ds-section-title">Border Radius</div>
+            <div style="display:flex; gap:12px; align-items:center">
+              <div style="width:40px;height:40px;background:var(--col-border);border-radius:4px"></div>
+              <div style="width:40px;height:40px;background:var(--col-border);border-radius:8px"></div>
+              <div style="width:40px;height:40px;background:var(--col-border);border-radius:16px"></div>
+              <div style="width:40px;height:40px;background:var(--col-border);border-radius:100px"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="section-label reveal">About</div>
+    <div class="about-grid">
+      <div class="about-sidebar reveal">
+        <div class="about-sidebar-stat">
+          <div class="stat-num">7+</div>
+          <div class="stat-label">Years in UX</div>
+        </div>
+        <div class="about-sidebar-stat">
+          <div class="stat-num">30+</div>
+          <div class="stat-label">Products Shipped</div>
+        </div>
+        <div class="about-sidebar-stat">
+          <div class="stat-num">4</div>
+          <div class="stat-label">Design Systems Built</div>
+        </div>
+        <div class="about-sidebar-stat">
+          <div class="stat-num">∞</div>
+          <div class="stat-label">Research Questions</div>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <h2 class="about-headline">I design for the <em>messy middle</em> — where research meets reality.</h2>
+        <p class="about-body">With 7+ years designing digital products across fintech, healthtech, and enterprise SaaS, I've learned that the most impactful design work happens at the intersection of deep user empathy and hard business constraints.</p>
+        <p class="about-body">I've built design systems from scratch, led research programs, and shipped AI-powered features to millions of users. Now I'm looking for a role where I can do all three — at scale, with a team that cares as much about craft as I do.</p>
+        <p class="about-body">When I'm not in Figma, I'm probably running usability sessions, writing about AI interaction design, or trying to explain to non-designers why spacing matters.</p>
+        <div class="tags">
+          <span class="tag">Figma</span>
+          <span class="tag">Framer</span>
+          <span class="tag">Maze</span>
+          <span class="tag">Dovetail</span>
+          <span class="tag">Miro</span>
+          <span class="tag">Notion</span>
+          <span class="tag">Jira</span>
+          <span class="tag">HTML / CSS</span>
+          <span class="tag">Python basics</span>
+          <span class="tag">SQL basics</span>
+          <span class="tag">Prompt Engineering</span>
+          <span class="tag">A/B Testing</span>
+          <span class="tag">JTBD</span>
+          <span class="tag">Atomic Design</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-inner">
+      <div class="reveal">
+        <h2 class="contact-headline">Let's build<br><em>something</em><br>great.</h2>
+        <p class="contact-sub">I'm actively exploring Sr. UX Designer and Product Designer roles. If you're building something ambitious, I'd love to talk.</p>
+        <div class="contact-links">
+          <div class="contact-link-row">
+            <span>LinkedIn</span>
+            <span class="link-arrow">↗</span>
+          </div>
+          <div class="contact-link-row">
+            <span>Read.cv</span>
+            <span class="link-arrow">↗</span>
+          </div>
+          <div class="contact-link-row">
+            <span>Dribbble</span>
+            <span class="link-arrow">↗</span>
+          </div>
+          <div class="contact-link-row">
+            <span>yourname@email.com</span>
+            <span class="link-arrow">↗</span>
+          </div>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-2">
+        <div class="contact-form">
+          <div class="form-field">
+            <label class="form-label">Your Name</label>
+            <input class="form-input" type="text" placeholder="Jane Smith" />
+          </div>
+          <div class="form-field">
+            <label class="form-label">Email</label>
+            <input class="form-input" type="email" placeholder="jane@company.com" />
+          </div>
+          <div class="form-field">
+            <label class="form-label">Message</label>
+            <textarea class="form-textarea" placeholder="Tell me about the role or project..."></textarea>
+          </div>
+          <button class="form-submit">Send Message →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-copy">© 2025 YourName · Built with intention</span>
+  <span class="footer-right">Sr. UX Designer · Mumbai</span>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Hero items visible on load
+  document.querySelectorAll('#hero .reveal').forEach(el => {
+    setTimeout(() => el.classList.add('visible'), 100);
+  });
+</script>
+</body>
+</html>
