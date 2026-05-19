@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Copilot for Enterprise SaaS — Case Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --col-bg:        #F5F4F0;
+    --col-surface:   #ECEAE3;
+    --col-border:    #D4D0C4;
+    --col-ink:       #1A1916;
+    --col-ink-2:     #4A4840;
+    --col-ink-3:     #8A8778;
+    --col-accent:    #1A1916;
+    --col-tag-bg:    #E2DFD6;
+    --col-tag-ink:   #4A4840;
+    --col-green:     #2D6A4F;
+    --col-green-bg:  #D8F0E6;
+
+    --font-display:  'Syne', sans-serif;
+    --font-serif:    'Instrument Serif', serif;
+    --font-mono:     'DM Mono', monospace;
+
+    --grid:          8px;
+    --radius-sm:     4px;
+    --radius-md:     8px;
+    --radius-lg:     16px;
+    --max-w:         1080px;
+    --section-gap:   100px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--col-bg);
+    color: var(--col-ink);
+    font-family: var(--font-mono);
+    font-size: 15px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  html { scroll-behavior: smooth; }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+
+  .container {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(245, 244, 240, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--col-border);
+    padding: 0 40px;
+    height: 56px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: -0.3px;
+  }
+  .nav-links {
+    display: flex; gap: 32px; list-style: none;
+  }
+  .nav-links a {
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--col-ink-2);
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--col-ink); }
+  .nav-cta {
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: 1px solid var(--col-ink);
+    padding: 7px 16px;
+    border-radius: var(--radius-sm);
+    transition: background 0.2s, color 0.2s;
+  }
+  .nav-cta:hover { background: var(--col-ink); color: var(--col-bg); }
+
+  .page-headline {
+    margin-top: 120px;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(42px, 6vw, 72px);
+    letter-spacing: -1.5px;
+    line-height: 1.02;
+    margin-bottom: 18px;
+  }
+  .page-subtitle {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 18px;
+    color: var(--col-ink-2);
+    max-width: 800px;
+    margin-bottom: 32px;
+  }
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--col-ink-3);
+    margin-bottom: 24px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::before {
+    content: '';
+    display: inline-block;
+    width: 24px; height: 1px;
+    background: var(--col-ink-3);
+  }
+  .copy-block {
+    max-width: 760px;
+    margin-bottom: 24px;
+    color: var(--col-ink-2);
+  }
+  .copy-block strong { color: var(--col-ink); }
+  .copy-block ul,
+  .copy-block ol { margin: 16px 0 24px 20px; }
+  .copy-block li { margin-bottom: 10px; }
+
+  .case-hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 48px;
+    align-items: start;
+    margin-bottom: 80px;
+  }
+  .case-card {
+    background: var(--col-surface);
+    border: 1px solid var(--col-border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+  }
+  .case-card-label {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--col-ink-3);
+    margin-bottom: 18px;
+  }
+  .case-stat { margin-bottom: 18px; }
+  .case-stat strong { display: block; font-family: var(--font-display); font-weight: 700; font-size: 22px; color: var(--col-ink); margin-bottom: 6px; }
+  .case-stat span { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--col-ink-3); }
+  .project-meta-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .meta-pill {
+    display: flex; justify-content: space-between;
+    background: var(--col-bg);
+    border: 1px solid var(--col-border);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    font-size: 13px;
+  }
+  .meta-pill strong { color: var(--col-ink); }
+
+  .case-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px;
+    margin-bottom: 40px;
+  }
+  .case-grid-full { grid-column: 1 / -1; }
+  .content-card {
+    background: var(--col-surface);
+    border: 1px solid var(--col-border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+  }
+  .content-card h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+  .content-card p,
+  .content-card li { color: var(--col-ink-2); }
+  .content-card ul { padding-left: 18px; }
+
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 24px;
+  }
+  .metric-pill {
+    background: var(--col-bg);
+    border: 1px solid var(--col-border);
+    border-radius: var(--radius-sm);
+    padding: 18px;
+  }
+  .metric-pill strong { display: block; font-family: var(--font-display); font-weight: 700; font-size: 18px; margin-bottom: 6px; }
+  .metric-pill span { color: var(--col-ink-3); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; }
+
+  .section-heading {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 28px;
+    letter-spacing: -0.6px;
+    margin-bottom: 18px;
+  }
+  .detail-list { list-style: none; padding: 0; margin: 0; }
+  .detail-list li {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    border-bottom: 1px solid var(--col-border);
+    padding: 14px 0;
+    color: var(--col-ink-2);
+  }
+  .detail-list li strong { color: var(--col-ink); }
+
+  footer {
+    border-top: 1px solid var(--col-border);
+    padding: 24px 0 40px;
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 20px;
+  }
+  .footer-copy, .footer-right { font-size: 11px; color: var(--col-ink-3); letter-spacing: 0.06em; }
+
+  .top-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 24px;
+    color: var(--col-ink-2);
+    font-size: 12px;
+  }
+  .top-link:hover { color: var(--col-ink); }
+
+  @media (max-width: 980px) {
+    .container { padding: 0 24px; }
+    nav { padding: 0 24px; }
+    .nav-links { gap: 18px; }
+    .case-hero-grid { grid-template-columns: 1fr; }
+    .case-grid { grid-template-columns: 1fr; }
+    .metrics-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 680px) {
+    .page-headline { margin-top: 100px; }
+    .section-heading { font-size: 24px; }
+    .case-card, .content-card { padding: 22px; }
+    .container { padding: 0 18px; }
+    nav { height: auto; padding: 12px 18px; }
+    .nav-links { flex-wrap: wrap; gap: 12px; }
+    .nav-links a, .nav-cta { font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-logo">YourName.design</div>
+  <ul class="nav-links">
+    <li><a href="index.html#work">Work</a></li>
+    <li><a href="index.html#research">Research</a></li>
+    <li><a href="index.html#system">Design System</a></li>
+    <li><a href="index.html#about">About</a></li>
+  </ul>
+  <a href="index.html#contact" class="nav-cta">Let's talk</a>
+</nav>
+<main class="container">
+  <a href="index.html" class="top-link">← Back to portfolio</a>
+  <section class="case-hero-grid">
+    <div>
+      <div class="section-label">Case Study</div>
+      <h1 class="page-headline">AI Copilot for Enterprise SaaS</h1>
+      <p class="page-subtitle">Designing an AI-powered in-product assistant for enterprise teams.</p>
+      <div class="copy-block">
+        <p>Enterprise users were spending excessive time navigating fragmented workflows, manually searching documentation, and switching between tools to complete routine operational tasks. I led the end-to-end UX strategy, research, and interaction design for an AI-powered in-product copilot that leveraged contextual retrieval, workflow automation, and natural language interactions to help enterprise users complete tasks faster.</p>
+      </div>
+      <div class="copy-block">
+        <p>The final solution reduced average task completion time by 40%, increased feature discoverability by 63%, and achieved a 71% weekly engagement rate within three months of launch.</p>
+      </div>
+    </div>
+    <aside class="case-card">
+      <div class="case-card-label">Project Overview</div>
+      <div class="case-stat"><strong>Role</strong><span>Lead UX Designer & Researcher</span></div>
+      <div class="case-stat"><strong>Timeline</strong><span>7 Months</span></div>
+      <div class="case-stat"><strong>Team</strong><span>1 UX Designer, 2 PMs, 8 Engineers, 1 Data Scientist</span></div>
+      <div class="case-stat"><strong>Platform</strong><span>Enterprise SaaS Workflow Platform</span></div>
+      <div class="case-stat"><strong>Users Impacted</strong><span>50,000+ Active Users Across 14 Countries</span></div>
+      <div class="case-stat"><strong>Focus Areas</strong><span>Generative AI, Conversational UX, Enterprise Productivity, Human-AI Interaction</span></div>
+    </aside>
+  </section>
+
+  <section id="overview">
+    <div class="section-label">Overview</div>
+    <div class="case-grid">
+      <div class="content-card">
+        <h3>Problem Statement</h3>
+        <ul>
+          <li>High cognitive overload caused by fragmented navigation structures.</li>
+          <li>Repetitive multi-step workflows requiring 8–15 clicks.</li>
+          <li>Low discoverability of advanced features.</li>
+          <li>Dependence on customer support and documentation.</li>
+          <li>Context switching between dashboards, spreadsheets, and knowledge bases.</li>
+          <li>Low confidence while performing high-risk operational tasks.</li>
+        </ul>
+      </div>
+      <div class="content-card">
+        <h3>Business Goals</h3>
+        <ul>
+          <li>Understand user intent in natural language.</li>
+          <li>Provide contextual assistance within workflows.</li>
+          <li>Automate repetitive tasks.</li>
+          <li>Reduce training and onboarding costs.</li>
+          <li>Improve operational efficiency at scale.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="research">
+    <div class="section-label">Research Phase</div>
+    <div class="content-card">
+      <h3>Research Objectives</h3>
+      <p>We wanted to understand how enterprise users currently complete workflows, where friction and hesitation occur, trust perceptions around AI systems, mental models around automation and recommendations, and behavioral differences between novice and expert users.</p>
+      <div class="case-grid">
+        <div>
+          <h3>Quantitative Product Analytics</h3>
+          <ul>
+            <li>Session recordings</li>
+            <li>Funnel drop-offs</li>
+            <li>Feature adoption metrics</li>
+            <li>Clickstream behavior</li>
+            <li>Workflow completion rates</li>
+            <li>Search query logs</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Contextual User Interviews</h3>
+          <p>Conducted 24 interviews across operations managers, customer success teams, financial analysts, enterprise administrators, and product operations teams.</p>
+          <ul>
+            <li>Users valued speed over feature depth.</li>
+            <li>Most users wanted fewer decisions, not more features.</li>
+            <li>Users distrusted “black-box automation”.</li>
+            <li>Users preferred assistive AI over autonomous AI.</li>
+            <li>Users expected AI to remember context and explain recommendations.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="content-card">
+        <h3>Diary Study</h3>
+        <p>A 10-day diary study with 12 participants revealed repetitive task fatigue, workaround creation using spreadsheets, frequent interruptions during workflows, and high dependency on tribal knowledge. This surfaced the high-frequency workflow clusters ideal for AI augmentation.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="opportunity">
+    <div class="section-label">Defining the AI Opportunity</div>
+    <div class="content-card">
+      <ul class="detail-list">
+        <li><strong>Navigation Friction</strong><span>Too many clicks → Natural language shortcuts</span></li>
+        <li><strong>Knowledge Retrieval</strong><span>Difficult documentation → Context-aware semantic search</span></li>
+        <li><strong>Workflow Repetition</strong><span>Manual repetitive actions → Suggested automation</span></li>
+        <li><strong>Error Prevention</strong><span>Fear of mistakes → AI-generated guidance</span></li>
+        <li><strong>Feature Discovery</strong><span>Hidden capabilities → Intelligent recommendations</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="strategy">
+    <div class="section-label">Design Strategy</div>
+    <div class="case-grid">
+      <div class="content-card">
+        <h3>Principles</h3>
+        <ul>
+          <li><strong>AI Should Feel Assistive, Not Autonomous:</strong> Users needed to remain in control.</li>
+          <li><strong>Context Over Conversation:</strong> The assistant should understand current screen, user role, workflow state, historical actions, and permissions.</li>
+          <li><strong>Progressive Trust Building:</strong> Start with recommendations, explain reasoning, and request confirmation for complex automation.</li>
+          <li><strong>Reduce Cognitive Load:</strong> Use predictive suggestions, inline actions, contextual prompts, and lightweight patterns.</li>
+        </ul>
+      </div>
+      <div class="content-card">
+        <h3>UX Exploration</h3>
+        <ul>
+          <li><strong>Option A — Traditional Chatbot:</strong> Rejected because it felt detached from workflows.</li>
+          <li><strong>Option B — Command Palette Style Assistant:</strong> Fast but too technical for non-power users.</li>
+          <li><strong>Option C — Embedded Contextual Copilot:</strong> Selected for conversational flexibility, contextual awareness, and workflow integration.</li>
+        </ul>
+        <p>Usability testing showed a 31% higher success rate compared to the chatbot concept.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="features">
+    <div class="section-label">Key UX Features</div>
+    <div class="case-grid">
+      <div class="content-card">
+        <h3>Contextual AI Panel</h3>
+        <p>The assistant dynamically adapted to page context, user permissions, task state, and historical usage patterns to reduce repeated explanations.</p>
+      </div>
+      <div class="content-card">
+        <h3>Natural Language Task Execution</h3>
+        <p>Users could type commands like “Generate monthly report for APAC accounts” and the AI translated intent into executable system actions.</p>
+      </div>
+      <div class="content-card">
+        <h3>Explainability Layer</h3>
+        <p>Every recommendation included why it appeared, confidence indicators, data sources, and editable parameters to improve trust.</p>
+      </div>
+      <div class="content-card">
+        <h3>AI-Powered Workflow Recommendations</h3>
+        <p>Proactive suggestions surfaced shortcuts, automations, next steps, and frequently paired workflows personalized by behavioral clustering.</p>
+      </div>
+      <div class="content-card case-grid-full">
+        <h3>Inline Learning & Onboarding</h3>
+        <p>Contextual guidance was embedded directly in workflows, reducing reliance on training teams and external documentation.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="testing">
+    <div class="section-label">Prototyping & Testing</div>
+    <div class="content-card">
+      <h3>Prototype Fidelity</h3>
+      <p>I created low-fidelity workflow maps, conversational interaction flows, high-fidelity Figma prototypes, and simulated AI response scenarios to validate the model and edge cases.</p>
+    </div>
+    <div class="case-grid">
+      <div class="content-card">
+        <h3>Round 1</h3>
+        <ul>
+          <li>Tested discoverability, prompt comprehension, trust perception, and conversational expectations.</li>
+          <li>Found users preferred suggested prompts over blank states.</li>
+          <li>AI confidence scores improved trust perception by 26%.</li>
+          <li>Users wanted editable AI outputs before execution.</li>
+        </ul>
+      </div>
+      <div class="content-card">
+        <h3>Round 2</h3>
+        <ul>
+          <li>Focused on workflow efficiency, learnability, repeat usage, and enterprise scalability.</li>
+          <li>Task completion time reduced by 40%.</li>
+          <li>User confidence improved by 34%.</li>
+          <li>Workflow abandonment reduced by 29%.</li>
+          <li>Time-to-first-success improved from 14 minutes to 5 minutes.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="impact">
+    <div class="section-label">Accessibility & Responsible AI</div>
+    <div class="content-card">
+      <ul>
+        <li>Transparency: users could inspect recommendations, edit outputs, reject suggestions, and provide feedback.</li>
+        <li>Error Recovery: fallback handling for ambiguous prompts, failed retrievals, permissions conflicts, and hallucination risks.</li>
+        <li>Accessibility: keyboard navigation, screen readers, low cognitive load patterns, and clear semantic hierarchy.</li>
+      </ul>
+    </div>
+    <div class="case-grid">
+      <div class="content-card">
+        <h3>Launch Strategy</h3>
+        <ul>
+          <li>Phase 1: AI assistance for onboarding and search.</li>
+          <li>Phase 2: Workflow generation and recommendations.</li>
+          <li>Phase 3: Predictive automation and proactive suggestions.</li>
+          <li>Staged rollout allowed safe feedback collection, model retraining, trust monitoring, and enterprise risk reduction.</li>
+        </ul>
+      </div>
+      <div class="content-card">
+        <h3>Business Impact</h3>
+        <div class="metrics-grid">
+          <div class="metric-pill"><strong>↓ 40%</strong><span>Task Completion Time</span></div>
+          <div class="metric-pill"><strong>↓ 29%</strong><span>Workflow Abandonment</span></div>
+          <div class="metric-pill"><strong>↓ 33%</strong><span>Support Tickets</span></div>
+          <div class="metric-pill"><strong>↑ 63%</strong><span>Feature Discoverability</span></div>
+          <div class="metric-pill"><strong>↑ 71%</strong><span>Weekly Active Engagement</span></div>
+          <div class="metric-pill"><strong>↓ 52%</strong><span>Onboarding Time</span></div>
+          <div class="metric-pill"><strong>↑ 38%</strong><span>User Satisfaction Score</span></div>
+          <div class="metric-pill"><strong>67%</strong><span>AI Recommendation Acceptance</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="reflection">
+    <div class="section-label">Final Reflection</div>
+    <div class="copy-block">
+      <p>This project transformed how I think about AI-assisted product experiences. Designing for enterprise AI required balancing automation with control, efficiency with transparency, intelligence with predictability, and scalability with usability.</p>
+      <p>The result was an AI system that augmented human workflows rather than attempting to replace them.</p>
+    </div>
+  </section>
+
+  <footer>
+    <span class="footer-copy">© 2025 YourName · Built with intention</span>
+    <span class="footer-right">Sr. UX Designer · Mumbai</span>
+  </footer>
+</main>
+</body>
+</html>
