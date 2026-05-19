@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mental Models Research for Generative AI — Case Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --col-bg:        #F5F4F0;
+    --col-surface:   #ECEAE3;
+    --col-border:    #D4D0C4;
+    --col-ink:       #1A1916;
+    --col-ink-2:     #4A4840;
+    --col-ink-3:     #8A8778;
+    --col-accent:    #1A1916;
+    --col-tag-bg:    #E2DFD6;
+    --col-tag-ink:   #4A4840;
+    --col-green:     #2D6A4F;
+    --col-green-bg:  #D8F0E6;
+
+    --font-display:  'Syne', sans-serif;
+    --font-serif:    'Instrument Serif', serif;
+    --font-mono:     'DM Mono', monospace;
+
+    --grid:          8px;
+    --radius-sm:     4px;
+    --radius-md:     8px;
+    --radius-lg:     16px;
+    --max-w:         1080px;
+    --section-gap:   100px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--col-bg);
+    color: var(--col-ink);
+    font-family: var(--font-mono);
+    font-size: 15px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  html { scroll-behavior: smooth; }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+  .container {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(245, 244, 240, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--col-border);
+    padding: 0 40px;
+    height: 56px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo { font-family: var(--font-display); font-weight: 700; font-size: 15px; letter-spacing: -0.3px; }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--col-ink-2);
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--col-ink); }
+  .nav-cta {
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: 1px solid var(--col-ink);
+    padding: 7px 16px;
+    border-radius: var(--radius-sm);
+    transition: background 0.2s, color 0.2s;
+  }
+  .nav-cta:hover { background: var(--col-ink); color: var(--col-bg); }
+  .page-headline {
+    margin-top: 120px;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(42px, 6vw, 72px);
+    letter-spacing: -1.5px;
+    line-height: 1.02;
+    margin-bottom: 18px;
+  }
+  .page-subtitle {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 18px;
+    color: var(--col-ink-2);
+    max-width: 800px;
+    margin-bottom: 32px;
+  }
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--col-ink-3);
+    margin-bottom: 24px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::before {
+    content: '';
+    display: inline-block;
+    width: 24px; height: 1px;
+    background: var(--col-ink-3);
+  }
+  .copy-block { max-width: 760px; margin-bottom: 24px; color: var(--col-ink-2); }
+  .copy-block ul, .copy-block ol { margin: 16px 0 24px 20px; }
+  .copy-block li { margin-bottom: 10px; }
+  .case-hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 48px;
+    align-items: start;
+    margin-bottom: 80px;
+  }
+  .case-card, .content-card { background: var(--col-surface); border: 1px solid var(--col-border); border-radius: var(--radius-lg); padding: 28px; }
+  .case-card-label { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--col-ink-3); margin-bottom: 18px; }
+  .case-stat { margin-bottom: 18px; }
+  .case-stat strong { display: block; font-family: var(--font-display); font-weight: 700; font-size: 22px; color: var(--col-ink); margin-bottom: 6px; }
+  .case-stat span { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--col-ink-3); }
+  .case-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; margin-bottom: 40px; align-items: stretch; }
+  .case-grid-full { grid-column: 1 / -1; }
+  .content-card { display: flex; flex-direction: column; justify-content: space-between; }
+  .content-card h3 { font-family: var(--font-display); font-weight: 700; font-size: 20px; margin-bottom: 16px; }
+  .content-card p, .content-card li { color: var(--col-ink-2); }
+  .content-card ul { padding-left: 18px; }
+  .metrics-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; margin-top: 24px; align-items: stretch; }
+  .metric-pill { background: var(--col-bg); border: 1px solid var(--col-border); border-radius: var(--radius-sm); padding: 24px; display: flex; flex-direction: column; justify-content: space-between; }
+  .metric-pill strong { display: block; font-family: var(--font-display); font-weight: 700; font-size: 18px; margin-bottom: 6px; }
+  .metric-pill span { color: var(--col-ink-3); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .detail-list { list-style: none; padding: 0; margin: 0; }
+  .detail-list li { display: flex; justify-content: space-between; gap: 10px; border-bottom: 1px solid var(--col-border); padding: 14px 0; color: var(--col-ink-2); }
+  .detail-list li strong { color: var(--col-ink); }
+  footer { border-top: 1px solid var(--col-border); padding: 24px 0 40px; display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+  .footer-copy, .footer-right { font-size: 11px; color: var(--col-ink-3); letter-spacing: 0.06em; }
+  .top-link { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 24px; color: var(--col-ink-2); font-size: 12px; }
+  .top-link:hover { color: var(--col-ink); }
+  @media (max-width: 980px) {
+    .container { padding: 0 24px; }
+    nav { padding: 0 24px; }
+    .nav-links { gap: 18px; }
+    .case-hero-grid, .case-grid, .metrics-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 680px) {
+    .page-headline { margin-top: 100px; }
+    .case-card, .content-card { padding: 22px; }
+    .container { padding: 0 18px; }
+    nav { height: auto; padding: 12px 18px; }
+    .nav-links { flex-wrap: wrap; gap: 12px; }
+    .nav-links a, .nav-cta { font-size: 11px; }
+    .section-label { margin-bottom: 18px; }
+  }
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-logo">Sakshi Agrawal</div>
+  <ul class="nav-links">
+    <li><a href="index.html#work">Work</a></li>
+    <li><a href="index.html#research">Research</a></li>
+    <li><a href="index.html#system">Design System</a></li>
+    <li><a href="index.html#about">About</a></li>
+  </ul>
+  <a href="index.html#contact" class="nav-cta">Let's talk</a>
+</nav>
+<main class="container">
+  <a href="index.html" class="top-link">← Back to portfolio</a>
+
+  <section class="case-hero-grid">
+    <div>
+      <div class="section-label">Case Study</div>
+      <h1 class="page-headline">Mental Models Research for Generative AI</h1>
+      <p class="page-subtitle">Understanding how non-technical users form trust in AI systems.</p>
+      <div class="copy-block">
+        <p>As generative AI adoption accelerated, the company needed deeper insight into how non-technical users understood, trusted, and interacted with AI systems.</p>
+      </div>
+      <div class="copy-block">
+        <p>I led a mixed-methods research initiative investigating how users form mental models around generative AI, including perceived intelligence, trust signals, correctness evaluation, anthropomorphism, and explainability effects.</p>
+      </div>
+    </div>
+    <aside class="case-card">
+      <div class="case-card-label">Project Overview</div>
+      <div class="case-stat"><strong>Role</strong><span>UX Research Lead</span></div>
+      <div class="case-stat"><strong>Timeline</strong><span>5 Months</span></div>
+      <div class="case-stat"><strong>Research Type</strong><span>Mixed Methods Research</span></div>
+      <div class="case-stat"><strong>Participants</strong><span>68 Participants Across 5 Demographics</span></div>
+      <div class="case-stat"><strong>Focus Areas</strong><span>Generative AI, Mental Models, Trust, Human-AI Interaction</span></div>
+    </aside>
+  </section>
+
+  <section id="overview">
+    <div class="section-label">Overview</div>
+    <div class="case-grid">
+      <div class="content-card">
+        <h3>Context</h3>
+        <p>The research explored how users with limited technical AI knowledge perceive generative systems, what builds trust, and how product design can support healthy skepticism.</p>
+      </div>
+      <div class="content-card">
+        <h3>Research Focus</h3>
+        <ul>
+          <li>How users perceive AI intelligence</li>
+          <li>What influences trust and skepticism</li>
+          <li>How users evaluate correctness</li>
+          <li>How anthropomorphism affects behavior</li>
+          <li>How explainability changes interaction patterns</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="goals">
+    <div class="section-label">Research Goals</div>
+    <div class="content-card">
+      <h3>Study objectives</h3>
+      <ul>
+        <li>How do non-technical users conceptualize generative AI?</li>
+        <li>What factors influence trust formation?</li>
+        <li>How do users respond to incorrect AI outputs?</li>
+        <li>How do conversational patterns affect perceived intelligence?</li>
+        <li>What UX interventions improve healthy trust calibration?</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="methodology">
+    <div class="section-label">Methodology</div>
+    <div class="case-grid">
+      <div class="content-card">
+        <h3>Mixed-methods framework</h3>
+        <ul>
+          <li>Quantitative surveys</li>
+          <li>Moderated interviews</li>
+          <li>Behavioral observation</li>
+          <li>Usability testing</li>
+          <li>Diary studies</li>
+          <li>Thematic analysis</li>
+        </ul>
+      </div>
+      <div class="content-card">
+        <h3>Participant demographics</h3>
+        <ul>
+          <li>Students</li>
+          <li>Operations professionals</li>
+          <li>Marketers</li>
+          <li>Business analysts</li>
+          <li>Administrative workers</li>
+        </ul>
+        <p>Most participants had limited technical understanding of AI systems.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="phases">
+    <div class="section-label">Research Phases</div>
+    <div class="case-grid">
+      <div class="content-card">
+        <h3>Phase 1 — Baseline Perception Survey</h3>
+        <p>A large-scale survey explored perceived AI intelligence, trust levels, expectations, emotional reactions, and usage behaviors.</p>
+      </div>
+      <div class="content-card">
+        <h3>Phase 2 — Behavioral Observation</h3>
+        <p>Participants completed tasks using generative AI tools while I observed prompting behavior, trust repair patterns, verification tendencies, frustration triggers, and emotional reactions.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="findings">
+    <div class="section-label">Findings</div>
+    <div class="case-grid">
+      <div class="content-card">
+        <h3>Key survey insights</h3>
+        <ul>
+          <li>61% believed AI “understands” information like humans.</li>
+          <li>47% assumed confident outputs were accurate.</li>
+          <li>58% struggled to identify hallucinated responses.</li>
+          <li>72% expected conversational memory even when unavailable.</li>
+        </ul>
+      </div>
+      <div class="content-card">
+        <h3>Behavioral patterns</h3>
+        <ul>
+          <li>Users anthropomorphized AI heavily.</li>
+          <li>Confidence signals influenced trust more than accuracy.</li>
+          <li>Verification was rare until mistakes appeared.</li>
+          <li>Explainability improved healthy trust calibration.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="framework">
+    <div class="section-label">Framework Development</div>
+    <div class="case-grid">
+      <div class="content-card">
+        <h3>Mental Model Maturity Framework</h3>
+        <ul>
+          <li><strong>Stage 1 — Anthropomorphic Trust</strong><br>Users perceive AI as human-like.</li>
+          <li><strong>Stage 2 — Functional Assistance</strong><br>Users begin understanding task boundaries.</li>
+          <li><strong>Stage 3 — Critical Collaboration</strong><br>Users treat AI as an assistive probabilistic system.</li>
+        </ul>
+      </div>
+      <div class="content-card">
+        <h3>Outcome</h3>
+        <p>The framework became foundational for internal AI UX guidelines and influenced onboarding, transparency, and trust calibration patterns.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="implications">
+    <div class="section-label">Design Implications</div>
+    <div class="case-grid">
+      <div class="content-card">
+        <h3>Trust and transparency</h3>
+        <ul>
+          <li>Interfaces should communicate uncertainty, confidence, source reliability, and limitations.</li>
+          <li>Conversational fluency can create false confidence.</li>
+          <li>UX must support verification through fact checking and editable outputs.</li>
+        </ul>
+      </div>
+      <div class="content-card">
+        <h3>Interaction guidelines</h3>
+        <ul>
+          <li>Source visibility and confidence indicators help build healthy trust.</li>
+          <li>Structured outputs and explanation summaries improve calibration.</li>
+          <li>Collaborative review patterns reduce misuse risk.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="deliverables">
+    <div class="section-label">Deliverables</div>
+    <div class="content-card case-grid-full">
+      <ul>
+        <li>Enterprise AI trust guidelines</li>
+        <li>Explainability UX patterns</li>
+        <li>AI onboarding recommendations</li>
+        <li>Transparency frameworks</li>
+        <li>Interaction design principles</li>
+        <li>Trust calibration heuristics</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="impact">
+    <div class="section-label">Business Impact</div>
+    <div class="metrics-grid">
+      <div class="metric-pill"><strong>↑ 41%</strong><span>AI Feature Adoption Confidence</span></div>
+      <div class="metric-pill"><strong>↓ 32%</strong><span>Misuse Incidents</span></div>
+      <div class="metric-pill"><strong>↑ 38%</strong><span>Trust Calibration Accuracy</span></div>
+      <div class="metric-pill"><strong>↑ 29%</strong><span>AI Satisfaction Scores</span></div>
+      <div class="metric-pill"><strong>9</strong><span>Product Teams Using Research</span></div>
+    </div>
+  </section>
+
+  <section id="reflection">
+    <div class="section-label">Strategic Learnings</div>
+    <div class="content-card">
+      <ul>
+        <li>AI UX is fundamentally psychological — perception often matters as much as technical capability.</li>
+        <li>Explainability is a UX problem, not just an engineering one.</li>
+        <li>Healthy skepticism improves long-term trust.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="final-reflection">
+    <div class="section-label">Final Reflection</div>
+    <div class="copy-block">
+      <p>This project deepened my understanding of human-AI interaction and reinforced the importance of designing AI systems that are understandable, trustworthy, and ethically responsible.</p>
+      <p>The research ultimately influenced both product direction and organizational AI design principles.</p>
+    </div>
+  </section>
+
+  <footer>
+    <span class="footer-copy">© 2025 Sakshi Agrawal · Built with intention</span>
+    <span class="footer-right">Sr. UX Designer · Mumbai</span>
+  </footer>
+</main>
+</body>
+</html>
