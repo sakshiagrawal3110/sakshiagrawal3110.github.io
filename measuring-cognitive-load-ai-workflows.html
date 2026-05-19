@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Measuring Cognitive Load in AI-Augmented Workflows — Research Case Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --col-bg:        #F5F4F0;
+    --col-surface:   #ECEAE3;
+    --col-border:    #D4D0C4;
+    --col-ink:       #1A1916;
+    --col-ink-2:     #4A4840;
+    --col-ink-3:     #8A8778;
+    --col-tag-bg:    #E2DFD6;
+    --col-green:     #2D6A4F;
+    --font-display:  'Syne', sans-serif;
+    --font-serif:    'Instrument Serif', serif;
+    --font-mono:     'DM Mono', monospace;
+    --max-w:         1080px;
+    --radius-sm:     4px;
+    --radius-md:     8px;
+    --radius-lg:     16px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--col-bg);
+    color: var(--col-ink);
+    font-family: var(--font-mono);
+    font-size: 15px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+  .container {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(245, 244, 240, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--col-border);
+    padding: 0 40px;
+    height: 56px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo { font-family: var(--font-display); font-weight: 700; font-size: 15px; letter-spacing: -0.3px; }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--col-ink-2); transition: color 0.2s; }
+  .nav-links a:hover { color: var(--col-ink); }
+  .nav-cta { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; border: 1px solid var(--col-ink); padding: 7px 16px; border-radius: var(--radius-sm); transition: background 0.2s, color 0.2s; }
+  .nav-cta:hover { background: var(--col-ink); color: var(--col-bg); }
+  .page-headline { margin-top: 120px; font-family: var(--font-display); font-weight: 800; font-size: clamp(42px, 6vw, 72px); letter-spacing: -1.5px; line-height: 1.02; margin-bottom: 22px; }
+  .page-subtitle { font-family: var(--font-serif); font-style: italic; font-size: 18px; color: var(--col-ink-2); max-width: 760px; margin-bottom: 42px; }
+  .section-label { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--col-ink-3); margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
+  .section-label::before { content: ''; display: inline-block; width: 24px; height: 1px; background: var(--col-ink-3); }
+  .copy-block { max-width: 760px; margin-bottom: 24px; color: var(--col-ink-2); }
+  .copy-block strong { color: var(--col-ink); }
+  .copy-block ul, .copy-block ol { margin: 16px 0 24px 20px; }
+  .copy-block li { margin-bottom: 10px; }
+  .case-hero-grid { display: grid; grid-template-columns: 1fr 320px; gap: 40px; align-items: start; margin-bottom: 60px; }
+  .case-card { background: var(--col-surface); border: 1px solid var(--col-border); border-radius: var(--radius-lg); padding: 28px; }
+  .case-card-label { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--col-ink-3); margin-bottom: 18px; }
+  .case-stat { margin-bottom: 18px; }
+  .case-stat strong { display: block; font-family: var(--font-display); font-weight: 700; font-size: 24px; color: var(--col-ink); margin-bottom: 6px; }
+  .case-stat span { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--col-ink-3); }
+  .project-meta-list { display: grid; gap: 14px; margin-top: 14px; }
+  .meta-pill { display: flex; justify-content: space-between; background: var(--col-bg); border: 1px solid var(--col-border); border-radius: var(--radius-sm); padding: 14px 16px; font-size: 13px; }
+  .meta-pill strong { color: var(--col-ink); }
+  .content-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; margin-bottom: 44px; }
+  .content-card { background: var(--col-surface); border: 1px solid var(--col-border); border-radius: var(--radius-lg); padding: 28px; }
+  .content-card h3 { font-family: var(--font-display); font-weight: 700; font-size: 20px; margin-bottom: 16px; }
+  .content-card p, .content-card li { color: var(--col-ink-2); }
+  .content-card ul { padding-left: 18px; }
+  .case-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; margin-bottom: 60px; }
+  .case-grid-full { grid-column: 1 / -1; }
+  footer { border-top: 1px solid var(--col-border); padding: 24px 0 40px; color: var(--col-ink-3); font-size: 11px; letter-spacing: 0.06em; }
+  @media (max-width: 980px) { .container { padding: 0 24px; } nav { padding: 0 24px; } .nav-links { gap: 18px; } .case-hero-grid, .content-grid, .case-grid { grid-template-columns: 1fr; } .page-headline { margin-top: 100px; } }
+  @media (max-width: 680px) { .page-headline { font-size: clamp(32px, 11vw, 48px); } .page-subtitle { font-size: 15px; } .nav-links a, .nav-cta { font-size: 11px; } }
+  @media (max-width: 980px) {
+    .container { padding: 0 24px; }
+    nav { padding: 0 24px; }
+    .nav-links { gap: 18px; }
+    .nav-cta { padding: 7px 14px; }
+    .case-hero-grid, .hero-grid, .content-grid, .case-grid, .metrics-grid, .research-grid, .approach-grid, .contact-inner, .visual-grid, .ds-visual-grid, .project-list { grid-template-columns: 1fr; }
+    .case-hero-grid, .hero-grid, .work-grid, .about-grid, .contact-inner, .ds-row { gap: 24px; }
+    .ds-body { padding: 32px 24px; }
+    .research-grid { gap: 20px; }
+    .project-row { gap: 16px; }
+    .footer { flex-direction: column; align-items: flex-start; gap: 12px; padding: 24px 24px; }
+  }
+  @media (max-width: 680px) {
+    body { font-size: 15px; }
+    nav { height: auto; padding: 12px 18px; }
+    .nav-links { flex-wrap: wrap; gap: 12px; }
+    .nav-links a, .nav-cta { font-size: 11px; }
+    .page-headline { margin-top: 100px; }
+    .page-subtitle, .section-heading, .work-subtitle, .about-body, .contact-sub, .research-desc, .copy-block { font-size: 14px; }
+    .case-card, .content-card, .hero-card { padding: 22px; }
+    .ds-body { padding: 28px 20px; }
+    .ds-visual-grid { grid-template-columns: 1fr; }
+    .ds-visual-swatch-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .contact-inner { gap: 32px; }
+    .project-row { grid-template-columns: 40px 1fr; }
+    .project-arrow { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); }
+    .footer { width: 100%; }
+  }
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-logo">Sakshi Agrawal</div>
+  <ul class="nav-links">
+    <li><a href="index.html#work">Work</a></li>
+    <li><a href="index.html#research">Research</a></li>
+    <li><a href="index.html#system">Design System</a></li>
+    <li><a href="index.html#about">About</a></li>
+  </ul>
+  <a href="index.html#contact" class="nav-cta">Let's talk</a>
+</nav>
+<div class="container">
+  <header>
+    <h1 class="page-headline">Measuring Cognitive Load in AI-Augmented Workflows</h1>
+    <p class="page-subtitle">Benchmarking task distribution with NASA-TLX, eye tracking, and behavioral metrics.</p>
+  </header>
+  <div class="case-hero-grid">
+    <div>
+      <div class="section-label">Role & scope</div>
+      <p class="copy-block"><strong>Role:</strong> Learner and co-member of the study<br><strong>Timeline:</strong> 5 Months<br><strong>Participants:</strong> 48 Participants<br><strong>Research Type:</strong> Experimental Usability Study<br><strong>Methods:</strong> Eye Tracking, NASA-TLX, Behavioral Timing, Cognitive Load Analysis</p>
+      <div class="content-card">
+        <h3>Overview</h3>
+        <p class="copy-block">As AI copilots became embedded into professional workflows, stakeholders assumed automation inherently reduced user effort. Early observations suggested the opposite: poorly designed AI interactions often increased cognitive burden through verification overhead, context switching, ambiguity, and excessive recommendations.</p>
+        <p class="copy-block">This study investigated how AI assistance models influence cognitive load during complex workflow execution and when automation begins to harm rather than help.</p>
+      </div>
+    </div>
+    <aside class="case-card">
+      <div class="case-card-label">Research snapshot</div>
+      <div class="case-stat"><strong>48</strong><span>Participants</span></div>
+      <div class="case-stat"><strong>5</strong><span>Conditions</span></div>
+      <div class="case-stat"><strong>240</strong><span>Eye-tracking sessions</span></div>
+      <div class="project-meta-list">
+        <div class="meta-pill"><strong>Domains</strong><span>AI-assisted workflows, enterprise UX, human-AI collaboration</span></div>
+        <div class="meta-pill"><strong>Analysis</strong><span>NASA-TLX, eye tracking, behavioral timing</span></div>
+        <div class="meta-pill"><strong>Impact</strong><span>Informed AI assistance strategy for product teams</span></div>
+      </div>
+    </aside>
+  </div>
+  <div class="content-grid">
+    <div class="content-card case-grid-full">
+      <h3>Research objective</h3>
+      <p class="copy-block">Which AI interaction models reduce cognitive load most effectively, and what balance between automation and agency optimizes performance?</p>
+    </div>
+    <div class="content-card">
+      <h3>Experimental design</h3>
+      <p class="copy-block">Participants completed operational workflows across five AI-assisted conditions, from manual work to fully autonomous execution, while we recorded mental workload, attention, and performance.</p>
+    </div>
+    <div class="content-card">
+      <h3>Measurement framework</h3>
+      <p class="copy-block">The study combined NASA-TLX, eye tracking, and behavioral metrics to capture both subjective load and objective attention patterns.</p>
+    </div>
+    <div class="content-card">
+      <h3>Key questions</h3>
+      <ul>
+        <li>Which AI models reduce cognitive load most effectively?</li>
+        <li>When does AI assistance become cognitively disruptive?</li>
+        <li>How does task delegation affect human attention patterns?</li>
+        <li>What balance between automation and agency optimizes performance?</li>
+      </ul>
+    </div>
+  </div>
+  <div class="case-grid">
+    <div class="content-card">
+      <h3>AI conditions tested</h3>
+      <ul>
+        <li><strong>Manual Workflow:</strong> no AI assistance.</li>
+        <li><strong>Suggestive AI:</strong> recommendations surfaced but user retains control.</li>
+        <li><strong>Guided AI:</strong> recommendations with concise reasoning and confidence indicators.</li>
+        <li><strong>Conversational AI:</strong> interactive copilot support with dialogue-driven tasks.</li>
+        <li><strong>Autonomous AI:</strong> the system executes actions automatically.</li>
+      </ul>
+    </div>
+    <div class="content-card">
+      <h3>Measurement dimensions</h3>
+      <ul>
+        <li><strong>NASA-TLX:</strong> mental demand, temporal demand, effort, frustration, perceived performance.</li>
+        <li><strong>Eye Tracking:</strong> fixation duration, gaze switching, scan complexity, verification loops, attention fragmentation.</li>
+        <li><strong>Behavioral Metrics:</strong> completion speed, correction frequency, hesitation time, override behavior, trust confidence.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="content-grid">
+    <div class="content-card case-grid-full">
+      <h3>Major findings</h3>
+      <ul>
+        <li><strong>Excessive recommendations increased cognitive fatigue:</strong> persistent AI suggestions caused attention fragmentation, decision fatigue, and reduced focus retention. High-frequency recommendation interfaces increased gaze switching by 42%.</li>
+        <li><strong>Guided explainability reduced cognitive stress:</strong> users performed best when AI explained reasoning concisely, surfaced confidence indicators, and reduced ambiguity. Guided AI reduced NASA-TLX cognitive load scores by 32%.</li>
+        <li><strong>Full autonomy reduced situational awareness:</strong> autonomous systems improved speed but lowered task understanding, confidence, and accountability awareness. Situational awareness dropped 28% in autonomous conditions.</li>
+        <li><strong>Conversational AI improved learnability but increased time cost:</strong> participants appreciated flexibility, but interaction overhead, prompt formulation burden, and conversational inefficiency increased task time.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="case-grid">
+    <div class="content-card">
+      <h3>Quantitative outcomes</h3>
+      <ul>
+        <li>Participants: 48</li>
+        <li>Workflow conditions tested: 5</li>
+        <li>Eye-tracking sessions: 240</li>
+        <li>Cognitive load reduction: 32%</li>
+        <li>Gaze switching increase (high AI density): 42%</li>
+        <li>Situational awareness decline (autonomy): 28%</li>
+        <li>Task completion improvement: 24%</li>
+      </ul>
+    </div>
+    <div class="content-card">
+      <h3>Design implications</h3>
+      <ul>
+        <li><strong>AI should reduce decisions, not add more decisions:</strong> poor recommendation density increases mental strain.</li>
+        <li><strong>Explainability must be lightweight:</strong> long explanations create additional cognitive burden.</li>
+        <li><strong>Visibility preserves human oversight:</strong> users require awareness even when automation is efficient.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="content-card">
+    <h3>Final reflection</h3>
+    <p class="copy-block">This study reinforced that AI UX success cannot be measured solely through efficiency metrics. Cognitive sustainability, attentional clarity, and mental effort are equally critical dimensions of experience quality. The research fundamentally shaped my approach to designing AI-assisted workflows that feel supportive rather than mentally exhausting.</p>
+  </div>
+</div>
+<footer class="container"><p>© 2025 Sakshi Agrawal · Built with intention</p></footer>
+</body>
+</html>

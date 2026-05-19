@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>How Users Trust (and Distrust) AI Recommendations — Research Case Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --col-bg:        #F5F4F0;
+    --col-surface:   #ECEAE3;
+    --col-border:    #D4D0C4;
+    --col-ink:       #1A1916;
+    --col-ink-2:     #4A4840;
+    --col-ink-3:     #8A8778;
+    --col-tag-bg:    #E2DFD6;
+    --col-green:     #2D6A4F;
+    --font-display:  'Syne', sans-serif;
+    --font-serif:    'Instrument Serif', serif;
+    --font-mono:     'DM Mono', monospace;
+    --max-w:         1080px;
+    --radius-sm:     4px;
+    --radius-md:     8px;
+    --radius-lg:     16px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--col-bg);
+    color: var(--col-ink);
+    font-family: var(--font-mono);
+    font-size: 15px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+
+  .container {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(245, 244, 240, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--col-border);
+    padding: 0 40px;
+    height: 56px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: -0.3px;
+  }
+  .nav-links {
+    display: flex; gap: 32px; list-style: none;
+  }
+  .nav-links a {
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--col-ink-2);
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--col-ink); }
+  .nav-cta {
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: 1px solid var(--col-ink);
+    padding: 7px 16px;
+    border-radius: var(--radius-sm);
+    transition: background 0.2s, color 0.2s;
+  }
+  .nav-cta:hover { background: var(--col-ink); color: var(--col-bg); }
+
+  .page-headline {
+    margin-top: 120px;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(42px, 6vw, 72px);
+    letter-spacing: -1.5px;
+    line-height: 1.02;
+    margin-bottom: 22px;
+  }
+  .page-subtitle {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 18px;
+    color: var(--col-ink-2);
+    max-width: 760px;
+    margin-bottom: 42px;
+  }
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--col-ink-3);
+    margin-bottom: 24px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::before {
+    content: '';
+    display: inline-block;
+    width: 24px; height: 1px;
+    background: var(--col-ink-3);
+  }
+  .copy-block {
+    max-width: 760px;
+    margin-bottom: 24px;
+    color: var(--col-ink-2);
+  }
+  .copy-block strong { color: var(--col-ink); }
+  .copy-block ul,
+  .copy-block ol { margin: 16px 0 24px 20px; }
+  .copy-block li { margin-bottom: 10px; }
+
+  .case-hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 40px;
+    align-items: start;
+    margin-bottom: 60px;
+  }
+  .case-card {
+    background: var(--col-surface);
+    border: 1px solid var(--col-border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+  }
+  .case-card-label {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--col-ink-3);
+    margin-bottom: 18px;
+  }
+  .case-stat { margin-bottom: 18px; }
+  .case-stat strong {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 24px;
+    color: var(--col-ink);
+    margin-bottom: 6px;
+  }
+  .case-stat span {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--col-ink-3);
+  }
+  .project-meta-list {
+    display: grid;
+    gap: 14px;
+    margin-top: 14px;
+  }
+  .meta-pill {
+    display: flex; justify-content: space-between;
+    background: var(--col-bg);
+    border: 1px solid var(--col-border);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    font-size: 13px;
+  }
+  .meta-pill strong { color: var(--col-ink); }
+
+  .content-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px;
+    margin-bottom: 44px;
+  }
+  .content-card {
+    background: var(--col-surface);
+    border: 1px solid var(--col-border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+  }
+  .content-card h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+  .content-card p,
+  .content-card li { color: var(--col-ink-2); }
+  .content-card ul { padding-left: 18px; }
+
+  .case-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px;
+    margin-bottom: 60px;
+  }
+  .case-grid-full { grid-column: 1 / -1; }
+
+  footer {
+    border-top: 1px solid var(--col-border);
+    padding: 24px 0 40px;
+    color: var(--col-ink-3);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+  }
+
+  @media (max-width: 980px) {
+    .container { padding: 0 24px; }
+    nav { padding: 0 24px; }
+    .nav-links { gap: 18px; }
+    .case-hero-grid,
+    .content-grid,
+    .case-grid { grid-template-columns: 1fr; }
+    .page-headline { margin-top: 100px; }
+  }
+
+  @media (max-width: 680px) {
+    .page-headline { font-size: clamp(32px, 11vw, 48px); }
+    .page-subtitle { font-size: 15px; }
+    .nav-links a, .nav-cta { font-size: 11px; }
+  }
+  @media (max-width: 980px) {
+    .container { padding: 0 24px; }
+    nav { padding: 0 24px; }
+    .nav-links { gap: 18px; }
+    .nav-cta { padding: 7px 14px; }
+    .case-hero-grid, .hero-grid, .content-grid, .case-grid, .metrics-grid, .research-grid, .approach-grid, .contact-inner, .visual-grid, .ds-visual-grid, .project-list { grid-template-columns: 1fr; }
+    .case-hero-grid, .hero-grid, .work-grid, .about-grid, .contact-inner, .ds-row { gap: 24px; }
+    .ds-body { padding: 32px 24px; }
+    .research-grid { gap: 20px; }
+    .project-row { gap: 16px; }
+    .footer { flex-direction: column; align-items: flex-start; gap: 12px; padding: 24px 24px; }
+  }
+  @media (max-width: 680px) {
+    body { font-size: 15px; }
+    nav { height: auto; padding: 12px 18px; }
+    .nav-links { flex-wrap: wrap; gap: 12px; }
+    .nav-links a, .nav-cta { font-size: 11px; }
+    .page-headline { margin-top: 100px; }
+    .page-subtitle, .section-heading, .work-subtitle, .about-body, .contact-sub, .research-desc, .copy-block { font-size: 14px; }
+    .case-card, .content-card, .hero-card { padding: 22px; }
+    .ds-body { padding: 28px 20px; }
+    .ds-visual-grid { grid-template-columns: 1fr; }
+    .ds-visual-swatch-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .contact-inner { gap: 32px; }
+    .project-row { grid-template-columns: 40px 1fr; }
+    .project-arrow { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); }
+    .footer { width: 100%; }
+  }
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-logo">Sakshi Agrawal</div>
+  <ul class="nav-links">
+    <li><a href="index.html#work">Work</a></li>
+    <li><a href="index.html#research">Research</a></li>
+    <li><a href="index.html#system">Design System</a></li>
+    <li><a href="index.html#about">About</a></li>
+  </ul>
+  <a href="index.html#contact" class="nav-cta">Let's talk</a>
+</nav>
+
+<div class="container">
+  <header>
+    <h1 class="page-headline">How Users Trust (and Distrust) AI Recommendations</h1>
+    <p class="page-subtitle">A 16-week longitudinal mixed-methods study with 240 participants exploring trust calibration across healthcare, finance, and productivity AI recommendation experiences.</p>
+  </header>
+
+  <div class="case-hero-grid">
+    <div>
+      <div class="section-label">Role & scope</div>
+      <p class="copy-block"><strong>Role:</strong> Learner and co-member of the study</p>
+      <div class="section-label">Research overview</div>
+      <p class="copy-block">This study followed first-time AI users over four months to understand how recommendation trust changes with repeated exposure. We documented the moments when users relied on, questioned, or rejected system suggestions, then translated those patterns into product design guidance.</p>
+      <div class="content-card">
+        <h3>Study focus</h3>
+        <ul>
+          <li>Trust calibration for AI recommendations in decision-making contexts.</li>
+          <li>How users interpret confidence, rationale, and risk signals.</li>
+          <li>Design cues that help people feel in control of AI-driven guidance.</li>
+        </ul>
+      </div>
+    </div>
+    <aside class="case-card">
+      <div class="case-card-label">Study snapshot</div>
+      <div class="case-stat"><strong>240</strong><span>Participants</span></div>
+      <div class="case-stat"><strong>16 weeks</strong><span>Duration</span></div>
+      <div class="case-stat"><strong>3</strong><span>Domains</span></div>
+      <div class="project-meta-list">
+        <div class="meta-pill"><strong>Method</strong><span>Longitudinal mixed methods</span></div>
+        <div class="meta-pill"><strong>Deliverables</strong><span>Trust framework, journey maps, design recommendations</span></div>
+        <div class="meta-pill"><strong>Product area</strong><span>AI recommendations</span></div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="content-grid">
+    <div class="content-card case-grid-full">
+      <h3>Problem</h3>
+      <p class="copy-block">Many AI recommendation experiences are framed as authoritative guidance, even though users do not always understand the system's confidence or limitations. This can create overtrust, undertrust, and frustration, especially in healthcare and finance where stakes are high.</p>
+    </div>
+    <div class="content-card">
+      <h3>Approach</h3>
+      <p class="copy-block">We combined weekly surveys, daily diary prompts, remote usability sessions, and follow-up interviews to map trust over time. Participants interacted with prototype recommendation flows and reflected on what made outputs feel reliable or risky.</p>
+      <ul>
+        <li>Weekly trust and confidence surveys.</li>
+        <li>Diary entries capturing recommendation moments.</li>
+        <li>Usability tests for explanation design.</li>
+      </ul>
+    </div>
+    <div class="content-card">
+      <h3>Domains</h3>
+      <ul>
+        <li><strong>Healthcare:</strong> treatment suggestions and symptom prioritization.</li>
+        <li><strong>Finance:</strong> spending, savings, and investment recommendations.</li>
+        <li><strong>Productivity:</strong> task prioritization and workflow automation guidance.</li>
+      </ul>
+    </div>
+    <div class="content-card">
+      <h3>Key outcomes</h3>
+      <ul>
+        <li>Trust is not static—it fluctuates as users learn and compare outcomes.</li>
+        <li>Context matters: healthcare prompts deeper verification than productivity suggestions.</li>
+        <li>Transparency and control increase perceived trust without encouraging blind reliance.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="case-grid">
+    <div class="content-card">
+      <h3>Findings</h3>
+      <p class="copy-block">Participants began with high curiosity but varied rapidly between acceptance and skepticism. The most reliable trust signals were clear rationale, visible confidence, and a simple way to ask "why" or see alternative options.</p>
+      <ul>
+        <li>Healthcare recommendations triggered the deepest scrutiny and the greatest need for reassurance.</li>
+        <li>Finance users wanted explicit risk cues and fallback choices.</li>
+        <li>Productivity users were more likely to accept suggestions if the benefit was obvious and low risk.</li>
+      </ul>
+    </div>
+    <div class="content-card">
+      <h3>Design implications</h3>
+      <ul>
+        <li>Surface why a recommendation was made, not just what it is.</li>
+        <li>Use confidence levels and alternative options to avoid overtrust.</li>
+        <li>Make the decision boundary visible: when should a user follow the recommendation, and when should they seek more input?</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="content-card">
+    <h3>Impact</h3>
+    <p class="copy-block">This research informed a design strategy that positions AI recommendations as collaborative guidance instead of definitive answers. Teams used the findings to build clearer trust cues, better explanations, and controls that keep users in the loop.</p>
+  </div>
+</div>
+
+<footer class="container">
+  <p>© 2025 Sakshi Agrawal · Built with intention</p>
+</footer>
+</body>
+</html>

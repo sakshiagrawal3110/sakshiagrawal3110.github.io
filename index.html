@@ -369,8 +369,11 @@
     color: var(--col-ink-3);
     line-height: 1.5;
   }
-  .project-tags { display: flex; gap: 6px; }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
   .project-tag {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
     font-size: 10px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -446,6 +449,7 @@
     margin-top: 56px;
   }
   .research-card {
+    display: block;
     border: 1px solid var(--col-border);
     border-radius: var(--radius-lg);
     padding: 32px;
@@ -483,7 +487,23 @@
     font-size: 13px;
     color: var(--col-ink-2);
     line-height: 1.7;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
+  }
+  .research-cta {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--col-ink-3);
+    border: 1px solid var(--col-border);
+    padding: 6px 12px;
+    border-radius: 999px;
+    transition: background 0.2s, color 0.2s, transform 0.2s;
+  }
+  .research-card:hover .research-cta {
+    background: var(--col-ink);
+    color: var(--col-bg);
+    transform: translateX(2px);
   }
   .research-meta {
     display: flex; gap: 24px;
@@ -540,6 +560,132 @@
   .ds-btn-2 { background: transparent; color: var(--col-ink); padding: 10px 20px; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 12px; border: 1px solid var(--col-ink); letter-spacing: 0.06em; }
   .ds-badge { background: var(--col-green-bg); color: var(--col-green); font-size: 11px; padding: 3px 10px; border-radius: 100px; font-family: var(--font-mono); letter-spacing: 0.04em; }
   .ds-input-demo { border: 1px solid var(--col-border); background: var(--col-bg); padding: 10px 14px; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 12px; color: var(--col-ink-3); width: 200px; }
+  .ds-visual-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 32px;
+  }
+  .ds-visual-card {
+    background: #fff;
+    border: 1px solid var(--col-border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: 0 18px 40px rgba(26, 25, 22, 0.04);
+  }
+  .ds-visual-header {
+    font-family: var(--font-display);
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--col-ink-3);
+    margin-bottom: 18px;
+  }
+  .ds-visual-swatch-grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .ds-visual-swatch {
+    aspect-ratio: 1 / 1;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--col-border);
+  }
+  .ds-visual-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .ds-visual-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--col-border);
+    color: var(--col-ink-2);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .ds-visual-input {
+    margin-top: 12px;
+    padding: 12px 14px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--col-border);
+    color: var(--col-ink-2);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    background: var(--col-bg);
+  }
+  .ds-visual-panel {
+    background: linear-gradient(180deg, #FBFBF8 0%, #F2F1EC 100%);
+  }
+  .ds-visual-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--col-border);
+    font-size: 13px;
+    color: var(--col-ink-2);
+  }
+  .ds-visual-item:last-child { border-bottom: none; }
+  .ds-visual-panel .ds-visual-header {
+    color: var(--col-ink);
+  }
+  .ds-summary {
+    background: #F8F7F2;
+    border: 1px solid var(--col-border);
+    border-radius: var(--radius-md);
+    padding: 22px 24px;
+    margin-top: 24px;
+  }
+  .ds-summary p {
+    margin-bottom: 14px;
+    color: var(--col-ink-2);
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  .ds-summary-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .ds-summary-list li {
+    background: var(--col-bg);
+    border: 1px solid var(--col-border);
+    border-radius: 999px;
+    padding: 8px 12px;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--col-ink-3);
+  }
+  .ds-case-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 28px;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--col-ink);
+    border: 1px solid var(--col-ink);
+    padding: 10px 16px;
+    border-radius: var(--radius-sm);
+    transition: background 0.2s, color 0.2s, transform 0.2s;
+  }
+  .ds-case-link:hover {
+    background: var(--col-ink);
+    color: var(--col-bg);
+    transform: translateX(2px);
+  }
 
   /* ─── CONTACT ────────────────────────────────────────────────────── */
   #contact {
@@ -640,14 +786,15 @@
     nav { padding: 0 24px; }
     .nav-links { gap: 18px; }
     .nav-cta { padding: 7px 14px; }
-    .hero-grid { grid-template-columns: 1fr; gap: 56px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 48px; align-items: start; padding: 60px 0 80px; }
     .hero-card { max-width: 100%; width: 100%; margin: 0 auto; }
     .hero-actions { flex-wrap: wrap; gap: 12px; }
     .work-header { flex-direction: column; align-items: flex-start; margin-bottom: 40px; }
     .work-subtitle { text-align: left; max-width: 100%; }
     .project-row { grid-template-columns: 48px 1fr auto; gap: 16px; padding: 22px 20px; }
     .project-tags { flex-wrap: wrap; gap: 6px; }
-    .approach-grid, .research-grid, .contact-inner { grid-template-columns: 1fr; }
+    .approach-grid, .research-grid, .contact-inner, .ds-row, .ds-visual-grid { grid-template-columns: 1fr; }
+    .hero-actions, .ds-row { gap: 24px; }
     .approach-grid { gap: 18px; }
     .research-grid { gap: 20px; }
     .ds-body { padding: 32px 24px; }
@@ -658,15 +805,17 @@
 
   @media (max-width: 680px) {
     body { font-size: 15px; }
-    nav { height: auto; padding: 12px 20px; }
+    nav { height: auto; padding: 12px 20px; align-items: flex-start; }
     .nav-links { flex-wrap: wrap; gap: 12px; }
     .nav-links a, .nav-cta { font-size: 11px; }
-    .hero { padding-top: 72px; }
+    #hero { padding-top: 72px; }
+    .hero-grid { gap: 36px; }
     .hero-eyebrow { margin-bottom: 18px; }
-    .hero-name { font-size: clamp(36px, 11vw, 56px); }
+    .hero-name { font-size: clamp(34px, 12vw, 52px); }
     .hero-desc { font-size: 14px; max-width: 100%; }
     .hero-card { padding: 22px; }
     .hero-card-label { margin-bottom: 16px; }
+    .hero-actions { flex-wrap: wrap; gap: 12px; }
     .project-row { grid-template-columns: 40px 1fr; gap: 14px; padding: 20px; }
     .project-arrow { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); }
     .project-info { padding-right: 30px; }
@@ -682,6 +831,31 @@
     .contact-link-row { padding: 14px 0; }
     .form-submit { width: 100%; }
     footer { width: 100%; }
+  }
+
+  @media (max-width: 430px) {
+    .container { padding: 0 20px; }
+    nav { padding: 10px 20px; flex-wrap: wrap; align-items: center; }
+    .nav-links { width: auto; justify-content: space-between; gap: 10px; }
+    .nav-links a { flex: 0 1 auto; text-align: center; min-width: 80px; }
+    .nav-cta { width: 100%; justify-content: center; padding: 10px 14px; margin-top: 10px; }
+    .hero-grid { gap: 30px; padding: 40px 0 60px; }
+    .hero-grid > div:first-child { padding-right: 12px; }
+    .hero-name { font-size: clamp(28px, 12vw, 40px); }
+    .hero-desc { font-size: 13px; }
+    .hero-actions { flex-direction: column; align-items: stretch; gap: 12px; }
+    .btn-primary, .btn-ghost { width: 100%; justify-content: center; }
+    .project-row { grid-template-columns: 40px 1fr; gap: 12px; padding: 18px 16px; }
+    .project-info { padding-right: 18px; }
+    .project-desc { font-size: 12px; }
+    .project-arrow { right: 12px; }
+    .about-headline, .contact-headline { font-size: clamp(28px, 10vw, 36px); }
+    .about-body, .work-subtitle, .contact-sub, .research-desc { font-size: 13px; }
+    .ds-body { padding: 24px 18px; }
+    .ds-visual-grid { gap: 16px; }
+    .contact-link-row { padding: 12px 0; }
+    .form-input, .form-textarea { font-size: 13px; }
+    footer { padding: 20px 16px; }
   }
 
   /* ─── SCROLL ANIMATIONS ──────────────────────────────────────────── */
@@ -706,9 +880,8 @@
 <nav>
   <div class="nav-logo">Sakshi Agrawal</div>
   <ul class="nav-links">
+    <li><a href="#hero">Overview</a></li>
     <li><a href="#work">Work</a></li>
-    <li><a href="#research">Research</a></li>
-    <li><a href="#system">Design System</a></li>
     <li><a href="#about">About</a></li>
   </ul>
   <a href="#contact" class="nav-cta">Let's talk</a>
@@ -901,13 +1074,14 @@
     </div>
 
     <div class="research-grid">
-      <div class="research-card reveal reveal-delay-1">
+      <a href="ai-recommendation-trust-study.html" class="research-card reveal reveal-delay-1">
         <div class="research-card-top">
           <span class="research-type">Longitudinal Study</span>
           <span class="research-year">2024</span>
         </div>
         <div class="research-title">How Users Trust (and Distrust) AI Recommendations</div>
         <div class="research-desc">A 16-week longitudinal mixed-methods study tracking trust evolution in first-time AI users across healthcare, finance, and productivity domains.</div>
+        <span class="research-cta">Read full study</span>
         <div class="research-meta">
           <div class="research-meta-item">
             <div class="research-meta-val">240</div>
@@ -922,15 +1096,16 @@
             <div class="research-meta-key">Domains</div>
           </div>
         </div>
-      </div>
+      </a>
 
-      <div class="research-card reveal reveal-delay-2">
+      <a href="ai-interaction-patterns-enterprise-ux.html" class="research-card reveal reveal-delay-2">
         <div class="research-card-top">
           <span class="research-type">Framework</span>
           <span class="research-year">2024</span>
         </div>
         <div class="research-title">A Taxonomy for AI Interaction Patterns in Enterprise UX</div>
         <div class="research-desc">A practical design framework categorising AI interaction types — from ambient intelligence to explicit co-creation — with design implications for each.</div>
+        <span class="research-cta">Read full study</span>
         <div class="research-meta">
           <div class="research-meta-item">
             <div class="research-meta-val">12</div>
@@ -945,15 +1120,16 @@
             <div class="research-meta-key">Reads</div>
           </div>
         </div>
-      </div>
+      </a>
 
-      <div class="research-card reveal reveal-delay-3">
+      <a href="measuring-cognitive-load-ai-workflows.html" class="research-card reveal reveal-delay-3">
         <div class="research-card-top">
           <span class="research-type">Usability Study</span>
           <span class="research-year">2023</span>
         </div>
         <div class="research-title">Measuring Cognitive Load in AI-Augmented Workflows</div>
         <div class="research-desc">Benchmarked cognitive load across 5 AI-assisted workflow variants using NASA-TLX and eye-tracking to find the optimal human-AI task split.</div>
+        <span class="research-cta">Read full study</span>
         <div class="research-meta">
           <div class="research-meta-item">
             <div class="research-meta-val">48</div>
@@ -968,15 +1144,16 @@
             <div class="research-meta-key">Load Reduction</div>
           </div>
         </div>
-      </div>
+      </a>
 
-      <div class="research-card reveal reveal-delay-4">
+      <a href="responsible-ai-ux-checklist.html" class="research-card reveal reveal-delay-4">
         <div class="research-card-top">
           <span class="research-type">Design Principles</span>
           <span class="research-year">2023</span>
         </div>
         <div class="research-title">Responsible AI UX: A Designer's Checklist</div>
         <div class="research-desc">A practitioner-facing guide distilling responsible AI principles into 24 testable design heuristics, from transparency to graceful degradation.</div>
+        <span class="research-cta">Read full study</span>
         <div class="research-meta">
           <div class="research-meta-item">
             <div class="research-meta-val">24</div>
@@ -991,7 +1168,7 @@
             <div class="research-meta-key">Access</div>
           </div>
         </div>
-      </div>
+      </a>
     </div>
   </div>
 </section>
@@ -1045,6 +1222,41 @@
             </div>
           </div>
         </div>
+        <div class="ds-visual-grid">
+          <div class="ds-visual-card">
+            <div class="ds-visual-header">Brand system textures</div>
+            <div class="ds-visual-swatch-grid">
+              <div class="ds-visual-swatch" style="background:#1A1916"></div>
+              <div class="ds-visual-swatch" style="background:#4A4840"></div>
+              <div class="ds-visual-swatch" style="background:#8A8778"></div>
+              <div class="ds-visual-swatch" style="background:#F5F4F0"></div>
+              <div class="ds-visual-swatch" style="background:#ECEAE3"></div>
+              <div class="ds-visual-swatch" style="background:#2D6A4F"></div>
+            </div>
+            <div class="ds-visual-row">
+              <div class="ds-btn-1">Primary</div>
+              <div class="ds-btn-2">Secondary</div>
+            </div>
+            <div class="ds-visual-chip">Status</div>
+            <div class="ds-visual-input">Search AI pattern…</div>
+          </div>
+          <div class="ds-visual-card ds-visual-panel">
+            <div class="ds-visual-header">Interface preview</div>
+            <div class="ds-visual-item"><span>Prompt strength</span><strong>70%</strong></div>
+            <div class="ds-visual-item"><span>Explainability</span><strong>On</strong></div>
+            <div class="ds-visual-item"><span>Auto-save</span><strong>Enabled</strong></div>
+            <div class="ds-visual-item"><span>Theme</span><strong>Minimal</strong></div>
+          </div>
+        </div>
+        <div class="ds-summary">
+          <p>Explore the full design system case study for the complete visual language, component strategy, token architecture, and AI-assisted governance process.</p>
+          <ul class="ds-summary-list">
+            <li>Color, typography, and spacing</li>
+            <li>Components & accessible patterns</li>
+            <li>Governance & adoption tooling</li>
+          </ul>
+        </div>
+        <a href="unified-design-system-v2.html" class="ds-case-link">View full design system case study →</a>
         <div class="ds-row" style="margin-bottom:0">
           <div>
             <div class="ds-section-title">Spacing Grid (8px base)</div>
@@ -1081,7 +1293,7 @@
     <div class="about-grid">
       <div class="about-sidebar reveal">
         <div class="about-sidebar-stat">
-          <div class="stat-num">7+</div>
+          <div class="stat-num">4</div>
           <div class="stat-label">Years in UX</div>
         </div>
         <div class="about-sidebar-stat">
@@ -1099,24 +1311,23 @@
       </div>
       <div class="reveal reveal-delay-1">
         <h2 class="about-headline">I design for the <em>messy middle</em> — where research meets reality.</h2>
-        <p class="about-body">With 7+ years designing digital products across fintech, healthtech, and enterprise SaaS, I've learned that the most impactful design work happens at the intersection of deep user empathy and hard business constraints.</p>
+        <p class="about-body">With 4 years designing digital products — 2 years in fintech and the rest in e-commerce — I've learned that the most impactful design work happens at the intersection of deep user empathy and hard business constraints.</p>
         <p class="about-body">I've built design systems from scratch, led research programs, and shipped AI-powered features to millions of users. Now I'm looking for a role where I can do all three — at scale, with a team that cares as much about craft as I do.</p>
         <p class="about-body">When I'm not in Figma, I'm probably running usability sessions, writing about AI interaction design, or trying to explain to non-designers why spacing matters.</p>
         <div class="tags">
-          <span class="tag">Figma</span>
-          <span class="tag">Framer</span>
-          <span class="tag">Maze</span>
-          <span class="tag">Dovetail</span>
-          <span class="tag">Miro</span>
-          <span class="tag">Notion</span>
-          <span class="tag">Jira</span>
-          <span class="tag">HTML / CSS</span>
-          <span class="tag">Python basics</span>
-          <span class="tag">SQL basics</span>
-          <span class="tag">Prompt Engineering</span>
-          <span class="tag">A/B Testing</span>
-          <span class="tag">JTBD</span>
-          <span class="tag">Atomic Design</span>
+          <span class="tag">UX Design</span>
+          <span class="tag">UI Design</span>
+          <span class="tag">Product Design</span>
+          <span class="tag">Strategy</span>
+          <span class="tag">Design Systems</span>
+          <span class="tag">Campaign Design</span>
+          <span class="tag">Research</span>
+          <span class="tag">AI Conversation Design</span>
+          <span class="tag">Responsive Design</span>
+          <span class="tag">Visual Design</span>
+          <span class="tag">Interaction Design</span>
+          <span class="tag">Accessibility</span>
+          <span class="tag">Design Ops</span>
         </div>
       </div>
     </div>
@@ -1131,22 +1342,18 @@
         <h2 class="contact-headline">Let's build<br><em>something</em><br>great.</h2>
         <p class="contact-sub">I'm actively exploring Sr. UX Designer and Product Designer roles. If you're building something ambitious, I'd love to talk.</p>
         <div class="contact-links">
-          <div class="contact-link-row">
+          <a href="https://www.linkedin.com/in/sakshiagrawalll/" class="contact-link-row" target="_blank" rel="noreferrer">
             <span>LinkedIn</span>
             <span class="link-arrow">↗</span>
-          </div>
-          <div class="contact-link-row">
-            <span>Read.cv</span>
+          </a>
+          <a href="mailto:sakshiagrawal3110@gmail.com" class="contact-link-row">
+            <span>sakshiagrawal3110@gmail.com</span>
             <span class="link-arrow">↗</span>
-          </div>
-          <div class="contact-link-row">
-            <span>Dribbble</span>
+          </a>
+          <a href="tel:+919923338960" class="contact-link-row">
+            <span>+91-9923338960</span>
             <span class="link-arrow">↗</span>
-          </div>
-          <div class="contact-link-row">
-            <span>yourname@email.com</span>
-            <span class="link-arrow">↗</span>
-          </div>
+          </a>
         </div>
       </div>
       <div class="reveal reveal-delay-2">
@@ -1173,7 +1380,7 @@
 <!-- FOOTER -->
 <footer>
   <span class="footer-copy">© 2025 Sakshi Agrawal · Built with intention</span>
-  <span class="footer-right">Sr. UX Designer · Mumbai</span>
+  <span class="footer-right">Sr. UX Designer · Mumbai, India</span>
 </footer>
 
 <script>

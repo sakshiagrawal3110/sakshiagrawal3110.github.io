@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>A Taxonomy for AI Interaction Patterns in Enterprise UX — Research Case Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --col-bg:        #F5F4F0;
+    --col-surface:   #ECEAE3;
+    --col-border:    #D4D0C4;
+    --col-ink:       #1A1916;
+    --col-ink-2:     #4A4840;
+    --col-ink-3:     #8A8778;
+    --col-tag-bg:    #E2DFD6;
+    --col-green:     #2D6A4F;
+    --font-display:  'Syne', sans-serif;
+    --font-serif:    'Instrument Serif', serif;
+    --font-mono:     'DM Mono', monospace;
+    --max-w:         1080px;
+    --radius-sm:     4px;
+    --radius-md:     8px;
+    --radius-lg:     16px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--col-bg);
+    color: var(--col-ink);
+    font-family: var(--font-mono);
+    font-size: 15px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+  .container {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(245, 244, 240, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--col-border);
+    padding: 0 40px;
+    height: 56px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo { font-family: var(--font-display); font-weight: 700; font-size: 15px; letter-spacing: -0.3px; }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--col-ink-2); transition: color 0.2s; }
+  .nav-links a:hover { color: var(--col-ink); }
+  .nav-cta { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; border: 1px solid var(--col-ink); padding: 7px 16px; border-radius: var(--radius-sm); transition: background 0.2s, color 0.2s; }
+  .nav-cta:hover { background: var(--col-ink); color: var(--col-bg); }
+  .page-headline { margin-top: 120px; font-family: var(--font-display); font-weight: 800; font-size: clamp(42px, 6vw, 72px); letter-spacing: -1.5px; line-height: 1.02; margin-bottom: 22px; }
+  .page-subtitle { font-family: var(--font-serif); font-style: italic; font-size: 18px; color: var(--col-ink-2); max-width: 760px; margin-bottom: 42px; }
+  .section-label { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--col-ink-3); margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
+  .section-label::before { content: ''; display: inline-block; width: 24px; height: 1px; background: var(--col-ink-3); }
+  .copy-block { max-width: 760px; margin-bottom: 24px; color: var(--col-ink-2); }
+  .copy-block strong { color: var(--col-ink); }
+  .copy-block ul, .copy-block ol { margin: 16px 0 24px 20px; }
+  .copy-block li { margin-bottom: 10px; }
+  .case-hero-grid { display: grid; grid-template-columns: 1fr 320px; gap: 40px; align-items: start; margin-bottom: 60px; }
+  .case-card { background: var(--col-surface); border: 1px solid var(--col-border); border-radius: var(--radius-lg); padding: 28px; }
+  .case-card-label { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--col-ink-3); margin-bottom: 18px; }
+  .case-stat { margin-bottom: 18px; }
+  .case-stat strong { display: block; font-family: var(--font-display); font-weight: 700; font-size: 24px; color: var(--col-ink); margin-bottom: 6px; }
+  .case-stat span { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--col-ink-3); }
+  .project-meta-list { display: grid; gap: 14px; margin-top: 14px; }
+  .meta-pill { display: flex; justify-content: space-between; background: var(--col-bg); border: 1px solid var(--col-border); border-radius: var(--radius-sm); padding: 14px 16px; font-size: 13px; }
+  .meta-pill strong { color: var(--col-ink); }
+  .content-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; margin-bottom: 44px; }
+  .content-card { background: var(--col-surface); border: 1px solid var(--col-border); border-radius: var(--radius-lg); padding: 28px; }
+  .content-card h3 { font-family: var(--font-display); font-weight: 700; font-size: 20px; margin-bottom: 16px; }
+  .content-card p, .content-card li { color: var(--col-ink-2); }
+  .content-card ul { padding-left: 18px; }
+  .case-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; margin-bottom: 60px; }
+  .case-grid-full { grid-column: 1 / -1; }
+  footer { border-top: 1px solid var(--col-border); padding: 24px 0 40px; color: var(--col-ink-3); font-size: 11px; letter-spacing: 0.06em; }
+  @media (max-width: 980px) { .container { padding: 0 24px; } nav { padding: 0 24px; } .nav-links { gap: 18px; } .case-hero-grid, .content-grid, .case-grid { grid-template-columns: 1fr; } .page-headline { margin-top: 100px; } }
+  @media (max-width: 680px) { .page-headline { font-size: clamp(32px, 11vw, 48px); } .page-subtitle { font-size: 15px; } .nav-links a, .nav-cta { font-size: 11px; } }
+  @media (max-width: 980px) {
+    .container { padding: 0 24px; }
+    nav { padding: 0 24px; }
+    .nav-links { gap: 18px; }
+    .nav-cta { padding: 7px 14px; }
+    .case-hero-grid, .hero-grid, .content-grid, .case-grid, .metrics-grid, .research-grid, .approach-grid, .contact-inner, .visual-grid, .ds-visual-grid, .project-list { grid-template-columns: 1fr; }
+    .case-hero-grid, .hero-grid, .work-grid, .about-grid, .contact-inner, .ds-row { gap: 24px; }
+    .ds-body { padding: 32px 24px; }
+    .research-grid { gap: 20px; }
+    .project-row { gap: 16px; }
+    .footer { flex-direction: column; align-items: flex-start; gap: 12px; padding: 24px 24px; }
+  }
+  @media (max-width: 680px) {
+    body { font-size: 15px; }
+    nav { height: auto; padding: 12px 18px; }
+    .nav-links { flex-wrap: wrap; gap: 12px; }
+    .nav-links a, .nav-cta { font-size: 11px; }
+    .page-headline { margin-top: 100px; }
+    .page-subtitle, .section-heading, .work-subtitle, .about-body, .contact-sub, .research-desc, .copy-block { font-size: 14px; }
+    .case-card, .content-card, .hero-card { padding: 22px; }
+    .ds-body { padding: 28px 20px; }
+    .ds-visual-grid { grid-template-columns: 1fr; }
+    .ds-visual-swatch-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .contact-inner { gap: 32px; }
+    .project-row { grid-template-columns: 40px 1fr; }
+    .project-arrow { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); }
+    .footer { width: 100%; }
+  }
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-logo">Sakshi Agrawal</div>
+  <ul class="nav-links">
+    <li><a href="index.html#work">Work</a></li>
+    <li><a href="index.html#research">Research</a></li>
+    <li><a href="index.html#system">Design System</a></li>
+    <li><a href="index.html#about">About</a></li>
+  </ul>
+  <a href="index.html#contact" class="nav-cta">Let's talk</a>
+</nav>
+<div class="container">
+  <header>
+    <h1 class="page-headline">A Taxonomy for AI Interaction Patterns in Enterprise UX</h1>
+    <p class="page-subtitle">Defining Scalable Interaction Models for Human-AI Collaboration</p>
+  </header>
+  <div class="case-hero-grid">
+    <div>
+      <div class="section-label">Role &amp; scope</div>
+      <p class="copy-block"><strong>Role:</strong> Learner and co-member of the study<br><strong>Timeline:</strong> 7 Months<br><strong>Research Type:</strong> Systems Research + Framework Development<br><strong>Domains:</strong> Enterprise SaaS, Analytics, Productivity, Operations<br><strong>Outputs:</strong> Interaction Taxonomy, Pattern Library, Governance Model</p>
+      <div class="content-card">
+        <h3>Overview</h3>
+        <p class="copy-block">As enterprise products rapidly integrated AI capabilities, interaction paradigms became fragmented and inconsistent across teams. Organizations lacked shared terminology, reusable AI patterns, governance structures, and interaction standards.</p>
+        <p class="copy-block">This project established a comprehensive taxonomy of AI interaction patterns designed to standardize human-AI collaboration across enterprise ecosystems.</p>
+      </div>
+    </div>
+    <aside class="case-card">
+      <div class="case-card-label">Research snapshot</div>
+      <div class="case-stat"><strong>76</strong><span>AI workflows analyzed</span></div>
+      <div class="case-stat"><strong>400+</strong><span>AI touchpoints</span></div>
+      <div class="case-stat"><strong>12</strong><span>interaction patterns</span></div>
+      <div class="project-meta-list">
+        <div class="meta-pill"><strong>Domains</strong><span>Enterprise SaaS, Analytics, Productivity, Operations</span></div>
+        <div class="meta-pill"><strong>Outputs</strong><span>Taxonomy, pattern library, governance model</span></div>
+        <div class="meta-pill"><strong>Impact</strong><span>Standardized AI interaction across 12 product teams</span></div>
+      </div>
+    </aside>
+  </div>
+  <div class="content-grid">
+    <div class="content-card case-grid-full">
+      <h3>Research objective</h3>
+      <p class="copy-block">How should AI interaction patterns be systematically categorized to improve scalability, usability, trust, and governance in enterprise UX?</p>
+    </div>
+    <div class="content-card">
+      <h3>Product ecosystem audit</h3>
+      <p class="copy-block">Analyzed 76 AI-enabled enterprise workflows, 24 SaaS platforms, 180+ interaction states, and 400+ AI touchpoints to identify recurring behavior and design needs.</p>
+    </div>
+    <div class="content-card">
+      <h3>Pattern mapping</h3>
+      <p class="copy-block">Interaction patterns were clustered based on autonomy level, user agency, cognitive load, explainability requirements, temporal behavior, visibility, and control.</p>
+    </div>
+    <div class="content-card">
+      <h3>Stakeholder workshops</h3>
+      <p class="copy-block">Facilitated alignment sessions with designers, AI engineers, PMs, compliance teams, and governance specialists to validate the taxonomy and adoption strategy.</p>
+    </div>
+  </div>
+  <div class="case-grid">
+    <div class="content-card">
+      <h3>Key discovery</h3>
+      <p class="copy-block">Most enterprise AI experiences fell into recurring behavioral archetypes rather than unique product innovations. This revealed the opportunity to create scalable interaction primitives.</p>
+    </div>
+    <div class="content-card">
+      <h3>The taxonomy framework</h3>
+      <p class="copy-block">The framework defined 12 AI interaction patterns grouped into four major categories, each with its own design principles and governance implications.</p>
+    </div>
+  </div>
+  <div class="content-grid">
+    <div class="content-card case-grid-full">
+      <h3>Category 1 — Ambient Intelligence</h3>
+      <p class="copy-block">Low-friction passive assistance.</p>
+      <ul>
+        <li>Anomaly detection</li>
+        <li>Predictive surfacing</li>
+        <li>Contextual reminders</li>
+      </ul>
+      <p class="copy-block"><strong>Design principle:</strong> AI should remain peripheral until relevant.</p>
+    </div>
+    <div class="content-card case-grid-full">
+      <h3>Category 2 — Guided Decision Support</h3>
+      <p class="copy-block">AI assists decision-making while preserving user agency.</p>
+      <ul>
+        <li>Ranked recommendations</li>
+        <li>Scenario modeling</li>
+        <li>Prioritization engines</li>
+      </ul>
+      <p class="copy-block"><strong>Design principle:</strong> Explain reasoning without overwhelming users.</p>
+    </div>
+    <div class="content-card case-grid-full">
+      <h3>Category 3 — Conversational Collaboration</h3>
+      <p class="copy-block">Bidirectional interaction systems.</p>
+      <ul>
+        <li>Copilots</li>
+        <li>Workflow assistants</li>
+        <li>Generative interfaces</li>
+      </ul>
+      <p class="copy-block"><strong>Design principle:</strong> Maintain context continuity and controllability.</p>
+    </div>
+    <div class="content-card case-grid-full">
+      <h3>Category 4 — Autonomous Operations</h3>
+      <p class="copy-block">AI performs actions proactively.</p>
+      <ul>
+        <li>Workflow automation</li>
+        <li>Predictive execution</li>
+        <li>Background optimization</li>
+      </ul>
+      <p class="copy-block"><strong>Design principle:</strong> Visibility and reversibility are critical.</p>
+    </div>
+  </div>
+  <div class="content-grid">
+    <div class="content-card">
+      <h3>Evaluation framework</h3>
+      <p class="copy-block">Each interaction type was evaluated across trust requirements, cognitive load, operational risk, explainability depth, failure visibility, and intervention frequency.</p>
+    </div>
+    <div class="content-card">
+      <h3>Strategic contributions</h3>
+      <ul>
+        <li>Interaction governance models</li>
+        <li>Escalation heuristics</li>
+        <li>Transparency ladders</li>
+        <li>Autonomy thresholds</li>
+        <li>Trust calibration matrices</li>
+      </ul>
+    </div>
+  </div>
+  <div class="case-grid">
+    <div class="content-card">
+      <h3>Organizational impact</h3>
+      <p class="copy-block">The taxonomy was adopted by 12 product teams, 4 enterprise business units, and internal AI governance initiatives. It influenced AI design reviews, interaction standards, design system evolution, and enterprise AI compliance processes.</p>
+    </div>
+    <div class="content-card">
+      <h3>Quantitative impact</h3>
+      <ul>
+        <li>Enterprise workflows analyzed: 76</li>
+        <li>AI interaction states mapped: 400+</li>
+        <li>Teams adopting framework: 12</li>
+        <li>Domains covered: 4</li>
+        <li>Reduction in pattern redundancy: 46%</li>
+        <li>Improvement in design consistency: 53%</li>
+        <li>Increase in cross-team alignment: 61%</li>
+        <li>Internal framework reads: 3,000+</li>
+      </ul>
+    </div>
+  </div>
+  <div class="content-card">
+    <h3>Strategic learnings</h3>
+    <ul>
+      <li>AI UX requires systems thinking: interactions cannot be designed as isolated screens.</li>
+      <li>Autonomy must be explicitly designed: users need clarity around control boundaries, accountability, and reversibility.</li>
+      <li>Enterprise AI requires governance layers: scalability depends on repeatable interaction standards.</li>
+    </ul>
+  </div>
+  <div class="content-card">
+    <h3>Final reflection</h3>
+    <p class="copy-block">This project shifted my perspective from designing individual AI features to designing interaction ecosystems. The taxonomy demonstrated that scalable AI UX requires behavioral frameworks, governance principles, trust-aware architecture, and systemic interaction modeling.</p>
+  </div>
+</div>
+<footer class="container"><p>© 2025 Sakshi Agrawal · Built with intention</p></footer>
+</body>
+</html>
